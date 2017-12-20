@@ -2,6 +2,8 @@ extern crate clap;
 
 use clap::{Arg, App};
 mod cleaner;
+mod conf;
+mod utils;
 
 fn main() {
 	// Defines command line arguments.
@@ -18,15 +20,15 @@ fn main() {
 		
 	let debug_flag = matches.value_of("debug");
 	if debug_flag == None{
-		println!("Debug value: True");
-	}else{
 		println!("Debug value: False");
+		cleaner::create_log_file(false);
+		cleaner::delete_user_cache(false);
+	}else{
+		println!("Debug value: True");
+		cleaner::create_log_file(true);
+		cleaner::delete_user_cache(true);
 	}
-
-
-	cleaner::create_log_file();
-	cleaner::delete_user_cache();
-	
+		
 }
 
 
