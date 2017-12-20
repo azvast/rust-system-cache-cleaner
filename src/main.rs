@@ -23,10 +23,21 @@ fn main() {
 		println!("Debug value: False");
 		cleaner::create_log_file(false);
 		cleaner::delete_user_cache(false);
+
+		if utils::am_root() == true{
+			cleaner::delete_system_cache(false);
+		}
+		
 	}else{
 		println!("Debug value: True");
 		cleaner::create_log_file(true);
 		cleaner::delete_user_cache(true);
+
+		if utils::am_root() == true{
+			cleaner::delete_system_cache(true);
+		}else {
+			println!("Not running as root");
+		}
 	}
 		
 }

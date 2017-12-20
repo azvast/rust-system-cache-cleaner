@@ -7,27 +7,8 @@ use std::fs;
 //const pth: str = "/home/dakota/git/cache_cleaner/src/config/clear_cache.conf";
 
 /// This function checks if a file exist 
-pub fn check_if_path_exist(path: &str) -> bool{
+pub fn check_if_path_exist(path: &String) -> bool{
 	fs::metadata(path).is_ok()
-}
-
-fn read_file<'a>(filename: &String, debug: bool) -> Vec<String>{
-	let f = File::open(filename).expect("file not found");
-	let file = BufReader::new(&f);
-	let mut work_vec = Vec::new();
-
-	for line in file.lines(){
-		let l = line.unwrap();
-		if l.starts_with("/") == true || l.starts_with("[") == true || l.starts_with("}"){
-			work_vec.push(l);  
-		}
-	}
-	if debug == true{
-		for i in 0..work_vec.len(){
-			println!("{}", work_vec[i].to_string());
-		}
-	}
-	return work_vec
 }
 
 // parse the user config
@@ -36,8 +17,10 @@ fn read_file<'a>(filename: &String, debug: bool) -> Vec<String>{
 //[user_dir]{
 //[system_file]{
 //[system_dir]{
-pub fn parse_config(section: &String, debug: bool) -> Vec<String>{
-	let pth = "/home/dakota/git/cache_cleaner/src/config/clear_cache.conf".to_string();
+pub fn parse_config(section: &String, debug: bool) -> (Vec<String>, usize, usize){
+	// Hard coded config path
+	let pth = "/etc/clear_cache/clear_cache.conf".to_string();
+	
 	let f = File::open(&pth).expect("file not found");
 	let file = BufReader::new(&f);
 	let mut work_vec = Vec::new();
@@ -65,22 +48,21 @@ pub fn parse_config(section: &String, debug: bool) -> Vec<String>{
 		count = count + 1;
 		if work_vec[i] == sec{
 			// The plus one is to not include the header itself
-			starting_index = (i + 1);
-			println!("for loop {}", work_vec[starting_index]);
-		}
-		if work_vec[i] != "0" && work_vec[i] == "}" {
-
+			starting_index = i + 1;
+			if debug == true {
+				println!("for loop {}", work_vec[starting_index]);
+			}
 		}
 	}
-	println!("Out side for loop staring index {}", starting_index);
+	//println!("Out side for loop staring index {}", starting_index);
 
 	// get end line
 	for i in starting_index..work_vec.len(){
 		if work_vec[i] == "}"{
-			end_index = (i - 1);
+			end_index = i - 1;
 		}
 	}
 
-	return work_vec
+	return (work_vec, starting_index, end_index)
 
 }
