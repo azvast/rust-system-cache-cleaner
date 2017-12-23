@@ -14,11 +14,9 @@ install:
 	echo "Root needs to have access to rustc and  cargo"
 	echo 
 	
-	cargo build --release
+	cargo install --root /usr/
 	mkdir -p /etc/clear_cache/
-	cp src/config/clear_cache_empty.conf -apvr /etc/clear_cache/clear_cache.conf
-
-	cp target/release/cache_cleaner -apvr /usr/bin/cache_cleaner
+	cp src/config/clear_cache_empty.conf -apvr /etc/clear_cache/clear_cache.confs
 
 	echo
 	echo

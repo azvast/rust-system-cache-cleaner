@@ -20,8 +20,8 @@ fn _filter_passwd(){
     let reader = BufReader::new(file_in);
 
     let mut count = 0;                      // used for counting in the for looops
-    let mut user_name = String::new();      // used for returning the user name
-    let mut user_path = String::new();      // used to return the path
+    //let mut user_name = String::new();      // used for returning the user name
+    //let mut user_path = String::new();      // used to return the path
 
     for line in reader.lines(){
         for value in line.unwrap().split(':') {

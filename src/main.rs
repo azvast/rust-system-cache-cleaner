@@ -15,10 +15,37 @@ fn main() {
 			.short("d")
 			.long("debug")
 			.takes_value(false)
-			.help("This sets the debuing flag to true, printing out all debuging info. To set the flag -d t or --debug t"))
-		.get_matches(); 
-		
+			.help("This sets the debuing flag to true, printing out all debuging info."))
+		.arg(Arg::with_name("Delete user cache")
+			.short("s")
+			.long("delete-user")
+			.takes_value(false)
+			.help("This Deletes just the user cache"))
+		.arg(Arg::with_name("Delete system cache")
+			.short("D")
+			.long("delete-system")
+			.takes_value(false)
+			.help("This Deletes the system cache <Must be root to run>"))
+		.arg(Arg::with_name("all")
+			.short("a")
+			.long("all")
+			.takes_value(false)
+			.help("This deletes both system and user cache <Must be root to run>"))
+        .arg(Arg::with_name("config")
+            .short("c")
+            .long("config")
+            .value_name("FILE")
+            .help("Sets a custom config file")
+			.takes_value(true)
+		.get_matches();		
+
 	let debug_flag = matches.value_of("debug");
+	//let all_flag = matches.value_of("all");
+	//let delete_system_cache_flag = matches.value_of("Delete system cache")
+	//let delete_user_cache_flag = matches.value_of("Delete user cache")
+
+
+
 	if debug_flag == None{
 		println!("Debug value: False");
 		cleaner::create_log_file(false);

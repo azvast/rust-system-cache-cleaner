@@ -26,36 +26,17 @@ pub fn create_log_file(debug: bool){
 
 /// This function delete users cache
 pub fn delete_user_cache(debug: bool){
-	//[user_file]
-	//[user_dir]
-	let sec = "[user_dir]{".to_string();
-	let (path_dir_vec, start_line, end_line) = conf::parse_config(&sec, debug);
-
-	for x in start_line..path_dir_vec.len(){
-		let for_vec = path_dir_vec[x].to_string();
-
-		if x == end_line{
-			println!("endline: {}", end_line);
-			break;
-		}
-		if conf::check_if_path_exist(&for_vec) == true{
-			fs::remove_dir_all(&for_vec).expect("Failded to delete");
-			if debug == false {
-				println!("Deleted Dir: {}", for_vec);
-			}
-		} else {
-			if debug == false {
-				println!("Dir didn't exist: {}", for_vec);
-			}	
-		}
-	}
-
+	delete_user_file(debug);
 	println!("============================");
 	println!("");
 	println!("============================");
+	delete_user_dir(debug);
+}
 
+fn delete_user_dir(debug: bool){
+	//[user_dir]
 	// this used for deleting invidual files
-	let sec1 = "[user_file]{".to_string();
+	let sec1 = "[user_dir]{".to_string();
 	let (path_file_vec, start_line, end_line) = conf::parse_config(&sec1, debug);
 
 	for x in start_line..path_file_vec.len(){
@@ -68,15 +49,42 @@ pub fn delete_user_cache(debug: bool){
 		if conf::check_if_path_exist(&for_vec) == true{
 			fs::remove_file(&for_vec).expect("Failded to delete");
 			if debug == true {
-				println!("Deleted File: {}", for_vec);
+				println!("Deleted dir: {}", for_vec);
 			}
 		} else {
 			if debug == true{
-				println!("File didn't exist: {}", for_vec);
+				println!("Dir didn't exist: {}", for_vec);
 			}
 		}
 	}
 }
+
+fn delete_user_file(debug: bool){
+	//[user_file]
+	let sec = "[user_file]{".to_string();
+	let (path_dir_vec, start_line, end_line) = conf::parse_config(&sec, debug);
+
+	for x in start_line..path_dir_vec.len(){
+		let for_vec = path_dir_vec[x].to_string();
+
+		if x == end_line{
+			println!("endline: {}", end_line);
+			break;
+		}
+		if conf::check_if_path_exist(&for_vec) == true{
+			fs::remove_dir_all(&for_vec).expect("Failded to delete");
+			if debug == true {
+				println!("Deleted file: {}", for_vec);
+			}
+		} else {
+			if debug == true {
+				println!("File didn't exist: {}", for_vec);
+			}	
+		}
+	}
+}
+
+
 
 // This function delete system cache 
 pub fn delete_system_cache(debug: bool){

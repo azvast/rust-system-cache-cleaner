@@ -11,24 +11,11 @@ pub fn check_if_path_exist(path: &String) -> bool{
 	fs::metadata(path).is_ok()
 }
 
-// parse the user config
-// configs are insdie of code blocks {}
-//[user_file]{
-//[user_dir]{
-//[system_file]{
-//[system_dir]{
-pub fn parse_config(section: &String, debug: bool) -> (Vec<String>, usize, usize){
-	// Hard coded config path
-	let pth = "/etc/clear_cache/clear_cache.conf".to_string();
+fn read_file(filename: &String, debug: bool) -> Vec<String>{
 	
-	let f = File::open(&pth).expect("file not found");
+	let f = File::open(&filename).expect("file not found");
 	let file = BufReader::new(&f);
 	let mut work_vec = Vec::new();
-
-	let sec = section.to_string();
-	let mut starting_index: usize = 0;
-	let mut count: usize = 0;
-	let mut end_index: usize = 0;
 
 	// strip the comments out and vec the file
 	for line in file.lines(){
@@ -42,7 +29,25 @@ pub fn parse_config(section: &String, debug: bool) -> (Vec<String>, usize, usize
 			println!("Debug {}", work_vec[i].to_string());
 		}
 	}
-	//======================================================Should be a sperate function ================================================
+	work_vec
+}
+
+// parse the user config
+// configs are insdie of code blocks {}
+//[user_file]{
+//[user_dir]{
+//[system_file]{
+//[system_dir]{
+pub fn parse_config(section: &String, debug: bool) -> (Vec<String>, usize, usize){
+
+	let pth = "/etc/clear_cache/clear_cache.conf".to_string();
+
+	let work_vec = read_file(&pth, debug);
+	let sec = section.to_string();
+	let mut starting_index: usize = 0;
+	let mut count: usize = 0;
+	let mut end_index: usize = 0;
+
 	// parse the file 
 	for i in 0..work_vec.len(){
 		count = count + 1;
@@ -60,9 +65,10 @@ pub fn parse_config(section: &String, debug: bool) -> (Vec<String>, usize, usize
 	for i in starting_index..work_vec.len(){
 		if work_vec[i] == "}"{
 			end_index = i - 1;
+			break;
 		}
 	}
-
+	println!("staring index {}", work_vec[starting_index -1]);
 	return (work_vec, starting_index, end_index)
 
 }
