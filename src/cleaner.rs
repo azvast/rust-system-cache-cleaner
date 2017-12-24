@@ -5,6 +5,7 @@ use std::fs;
 use std::fs::File;
 // use custom libs
 use conf;
+use utils;
 
 /// This first checks if the log file exist
 /// if not, it will create it. For now it wil create
@@ -13,8 +14,11 @@ use conf;
 
 /// This function delete users cache
 pub fn delete_user_cache(debug: bool){
+	utils::write_log_file(debug, "====================== User Files ======================");
 	let sec = "[user_file]{".to_string();
 	delete_file(debug, &sec);
+
+	utils::write_log_file(debug, "====================== User Directories ======================");
 	let sec1 = "[user_dir]{".to_string();
 	delete_dir(debug, &sec1);
 }
@@ -23,8 +27,11 @@ pub fn delete_user_cache(debug: bool){
 pub fn delete_system_cache(debug: bool){
 	//[system_file]{
 	//[system_dir]{
+	utils::write_log_file(debug, "====================== System Files ======================");
 	let sec = "[system_file]{".to_string();
 	delete_file(debug, &sec);
+
+	utils::write_log_file(debug, "====================== System Directories ======================");
 	let sec1 = "[system_dir]{".to_string();
 	delete_dir(debug, &sec1);
 }

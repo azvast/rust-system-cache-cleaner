@@ -1,5 +1,5 @@
 use std::io::{BufReader, BufRead, Write};
-use std::fs::File;
+use std::fs:: {File};
 use std::env;
 use conf;
 
@@ -11,7 +11,7 @@ fn _get_users(){
 
 }
 
-fn get_current_user(debug: bool) -> String{
+fn get_log_path(debug: bool) -> String{
 	let mut home: String = env::var("HOME").expect("Couldn't find env HOME");
     
     if home == "/root" {
@@ -63,7 +63,7 @@ pub fn am_root() -> bool {
 /// This creates the log in the home dir of the user that runs the command
 pub fn create_log_file(debug: bool){
 
-    let log_path = get_current_user(debug);
+    let log_path = get_log_path(debug);
 
 	if conf::check_if_path_exist(&log_path) == true{
 		if debug == true {
@@ -76,6 +76,10 @@ pub fn create_log_file(debug: bool){
 	}	
 }
 
-pub fn _write_log_file(){
-    
+pub fn write_log_file(debug: bool, message: &str){
+    let log_path = get_log_path(debug);
+
+    let mut log_file = File::create(&log_path).expect("Ubable to open file");
+    log_file.write(message.as_bytes()).expect("Couldn't Right file");
+    log_file.sync_all().unwrap();
 }
