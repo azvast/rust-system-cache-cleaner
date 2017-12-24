@@ -1,11 +1,33 @@
-use std::io::{BufReader, BufRead};
+use std::io::{BufReader, BufRead, Write};
 use std::fs::File;
 use std::env;
+use conf;
+
 //https://askubuntu.com/questions/410244/a-command-to-list-all-users-and-how-to-add-delete-modify-users
 // This command works awk -F'[/:]' '{if ($3 >= 1000 && $3 != 65534) print $1}' /etc/passwd
 // https://stackoverflow.com/questions/33294932/parsing-variable-from-delimited-file
 // Because of my uncle's hackery we will not by filtering out below 65543
 fn _get_users(){
+
+}
+
+fn get_current_user(debug: bool) -> String{
+	let mut home: String = env::var("HOME").expect("Couldn't find env HOME");
+    
+    if home == "/root" {
+        home = "/var/cache_cleaner".to_string();
+    }
+
+    let log_path: &str = "/.cache_cleaner_logs";
+
+    home.push_str(log_path);
+
+    if debug == true {
+        println!("Log Path: {}", &home);
+        return home
+    } else {
+        return home
+    }
 
 }
 
@@ -34,6 +56,26 @@ fn _filter_passwd(){
 pub fn am_root() -> bool {
     match env::var("USER") {
         Ok(val) => val == "Root",
-        Err(e) => false,
+        Err(_e) => false,
     }
+}
+
+/// This creates the log in the home dir of the user that runs the command
+pub fn create_log_file(debug: bool){
+
+    let log_path = get_current_user(debug);
+
+	if conf::check_if_path_exist(&log_path) == true{
+		if debug == true {
+			println!("Log file already exist");
+		}
+	}else {
+		let mut log_file = File::create(&log_path).expect("Unable to create file");
+		log_file.write_all(b"File Created").unwrap();
+		log_file.sync_all().unwrap();
+	}	
+}
+
+pub fn _write_log_file(){
+    
 }

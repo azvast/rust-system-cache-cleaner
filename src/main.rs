@@ -1,6 +1,7 @@
+
 extern crate clap;
 
-use clap::{Arg, App};
+use clap::{Arg, App, AppSettings};
 mod cleaner;
 mod conf;
 mod utils;
@@ -11,6 +12,7 @@ fn main() {
 		.version("0.1.0")												// version
 		.author("Dakota James Owen Keeler <Bearzrobotics@gmail.com>")	// name
 		.about("This is a simple util to clean cache up on my system")
+		.setting(AppSettings::ColorAuto)
 		.arg(Arg::with_name("debug")
 			.short("d")
 			.long("debug")
@@ -36,34 +38,30 @@ fn main() {
             .long("config")
             .value_name("FILE")
             .help("Sets a custom config file")
-			.takes_value(true)
+			.takes_value(true))
 		.get_matches();		
 
-	let debug_flag = matches.value_of("debug");
 	//let all_flag = matches.value_of("all");
 	//let delete_system_cache_flag = matches.value_of("Delete system cache")
 	//let delete_user_cache_flag = matches.value_of("Delete user cache")
+	//let config_flag = matches.value_of("config").unwrap();
 
-
-
-	if debug_flag == None{
-		println!("Debug value: False");
-		cleaner::create_log_file(false);
-		cleaner::delete_user_cache(false);
-
-		if utils::am_root() == true{
-			cleaner::delete_system_cache(false);
-		}
-		
-	}else{
+	if matches.is_present("debug"){
 		println!("Debug value: True");
-		cleaner::create_log_file(true);
+		utils::create_log_file(true);
 		cleaner::delete_user_cache(true);
 
 		if utils::am_root() == true{
 			cleaner::delete_system_cache(true);
 		}else {
 			println!("Not running as root");
+		}
+	}else{
+		utils::create_log_file(false);
+		cleaner::delete_user_cache(false);
+
+		if utils::am_root() == true{
+			cleaner::delete_system_cache(false);
 		}
 	}
 		

@@ -23,4 +23,6 @@ install:
 	echo "Please configure the files you want to be deleted. /etc/clear_cache/clear_cache.conf"
 	echo "Or ~/.clear_cache/clear_cache.conf"
 
+	echo "If ran as root log files are placed in /var/cache_cleaner"
+	mkdir -p /var/cache_cleaner
 

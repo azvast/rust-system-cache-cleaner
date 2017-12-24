@@ -55,7 +55,7 @@ pub fn parse_config(section: &String, debug: bool) -> (Vec<String>, usize, usize
 			// The plus one is to not include the header itself
 			starting_index = i + 1;
 			if debug == true {
-				println!("for loop {}", work_vec[starting_index]);
+				println!("Starting index: {}", work_vec[starting_index - 1]);
 			}
 		}
 	}
@@ -68,7 +68,5 @@ pub fn parse_config(section: &String, debug: bool) -> (Vec<String>, usize, usize
 			break;
 		}
 	}
-	println!("staring index {}", work_vec[starting_index -1]);
 	return (work_vec, starting_index, end_index)
-
 }
