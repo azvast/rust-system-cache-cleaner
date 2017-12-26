@@ -22,7 +22,6 @@ pub fn delete_user_cache(mode: u8){
 
 	delete_dir(mode, &sec1);
 	delete_file(mode ,&sec);
-	
 }
 
 // This function delete system cache 
@@ -34,63 +33,60 @@ pub fn delete_system_cache(mode: u8){
 	
 	delete_dir(mode, &sec1);
 	delete_file(mode, &sec);
-	
 }
 
 fn delete_dir(mode: u8, sec: &String){
 
 	let home: Vec<String>  = utils::get_users(mode);
-	let (tmp_path_file_vec, start_line, end_line) = conf::parse_config(&sec, mode);
-	let mut path_file_vec = Vec::new();
+	let tmp_path_dir_vec = conf::parse_config(&sec, mode);
+	let mut path_dir_vec = Vec::new();
 
 	for i in 0..home.len(){
-		for x in 0..path_file_vec.len(){
-			path_file_vec.push(home[i].to_string() + &tmp_path_file_vec[x].to_string());
-			println!("{}", path_file_vec[x]);
+		// have value here
+		for x in 0..path_dir_vec.len(){
+			path_dir_vec.push(home[i].to_string() + &tmp_path_dir_vec[x].to_string());
+			if mode == 1 {
+				println!("{}", path_dir_vec[x]);
+			}
 		}
 	}
-	// I have mode value here
+	// Have value here
 
-	let tmp_mode = mode;
-	for x in start_line..path_file_vec.len(){
+	for x in 0..path_dir_vec.len(){
 		// I do not have mode value here
-		if tmp_mode == 1 && x == end_line{
-			println!("endline: {}", end_line);
-			break;
-		}
-		println!("Value of mode {}", &tmp_mode);
-		if conf::check_if_path_exist(&path_file_vec[x]) == true{
+		println!("Value of mode {}", &mode);
+		if conf::check_if_path_exist(&path_dir_vec[x]) == true{
 			println!("Value of mode inside of if {}", &mode);
-			fs::remove_file(&path_file_vec[x]).expect("Failded to delete");
-			if (tmp_mode == 2) || (tmp_mode == 1){
-				println!("Deleted dir: {}", path_file_vec[x]);
+			fs::remove_file(&path_dir_vec[x]).expect("Failded to delete");
+			if (mode == 2) || (mode == 1){
+				println!("Deleted dir: {}", path_dir_vec[x]);
 			}
 		} else {
-			//if (mode == 2) || (mode == 1){
-			if (tmp_mode == 2) || (tmp_mode == 1){
-				println!("Dir didn't exist: {}", path_file_vec[x]);
+			if (mode == 2) || (mode == 1){
+				println!("Dir didn't exist: {}", path_dir_vec[x]);
 			}
 		}
 	}
+	// Have value here
 }
 
 fn delete_file(mode: u8, sec: &String){
 	let home: Vec<String>  = utils::get_users(mode);
-	let (tmp_path_file_vec, start_line, end_line) = conf::parse_config(&sec, mode);
+	let tmp_path_file_vec = conf::parse_config(&sec, mode);
 	let mut path_file_vec = Vec::new();
 
 	for i in 0..home.len(){
 		for x in 0..path_file_vec.len(){
 			path_file_vec.push(home[i].to_string() + &tmp_path_file_vec[x].to_string());
-			println!("{}", path_file_vec[x]);
+			if mode == 1 {
+				println!("{}", path_file_vec[x]);
+			}
 		}
 	}
 
-	for x in start_line..path_file_vec.len(){
-		if mode == 1 && x == end_line{
-			println!("endline: {}", end_line);
-			break;
-		} 
+	for x in 0..path_file_vec.len(){
+
+		// I believe this isn't working at all
 		if conf::check_if_path_exist(&path_file_vec[x]) == true{
 			fs::remove_dir(&path_file_vec[x]).expect("Failded to delete");
 			if (mode == 2) || (mode == 1){

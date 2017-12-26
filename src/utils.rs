@@ -41,9 +41,7 @@ pub fn get_users(mode: u8) -> Vec<String>{
                 if mode == 1 {
                     println!("User_Vec: {}", &user_vec[index]);
                 }
-                
             }
-            
         }
 
         if mode == 1 {            // this is hear to make sure its building the new vector right. Which it does so far.
@@ -142,7 +140,7 @@ pub fn create_log_file(mode: u8){
 	}	
 }
 
-pub fn write_log_file(mode: u8, message: &str){
+pub fn _write_log_file(mode: u8, message: &str){
     let log_path = get_log_path(mode);
 
     let mut log_file = File::create(&log_path).expect("Ubable to open file");

@@ -38,15 +38,15 @@ fn read_file(filename: &String, mode: u8) -> Vec<String>{
 //[user_dir]{
 //[system_file]{
 //[system_dir]{
-pub fn parse_config(section: &String, mode: u8) -> (Vec<String>, usize, usize){
+pub fn parse_config(section: &String, mode: u8) -> Vec<String>{
 
 	let pth = "/etc/cache_cleaner/cache_cleaner.conf".to_string();
 
 	let work_vec = read_file(&pth, mode);
+	let mut out_vec: Vec<String> = Vec::new();
 	let sec = section.to_string();
 	let mut starting_index: usize = 0;
 	let mut count: usize = 0;
-	let mut end_index: usize = 0;
 
 	// parse the file 
 	for i in 0..work_vec.len(){
@@ -63,10 +63,19 @@ pub fn parse_config(section: &String, mode: u8) -> (Vec<String>, usize, usize){
 
 	// get end line
 	for i in starting_index..work_vec.len(){
+		let temp = &work_vec[i];
+		out_vec.push(temp.to_string());
 		if work_vec[i] == "}"{
-			end_index = i - 1;
+			out_vec.pop();
 			break;
 		}
 	}
-	(work_vec, starting_index, end_index)
+
+	if mode == 1{
+		for i in 0..out_vec.len() {
+			println!("Out Vec: {}", out_vec[i]);
+		}		
+		println!(" ");
+	}
+	out_vec
 }
