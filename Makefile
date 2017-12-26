@@ -15,14 +15,19 @@ install:
 	echo 
 	
 	cargo install --root /usr/
-	mkdir -p /etc/clear_cache/
-	cp src/config/clear_cache_empty.conf -apvr /etc/clear_cache/clear_cache.confs
+	mkdir -p /etc/cache_cleaner/
+	cp src/config/cache_cleaner_empty.conf -apvr /etc/cache_cleaner/cache_cleaner.conf
 
 	echo
 	echo
-	echo "Please configure the files you want to be deleted. /etc/clear_cache/clear_cache.conf"
-	echo "Or ~/.clear_cache/clear_cache.conf"
+	echo "Please configure the files you want to be deleted. /etc/cache_cleaner/cache_cleaner.conf"
+	echo "Or ~/.cache_cleaner/cache_cleaner.conf"
 
 	echo "If ran as root log files are placed in /var/cache_cleaner"
 	mkdir -p /var/cache_cleaner
 
+uninstall:
+	echo "run as root"
+	rm /usr/bin/cache_cleaner
+	rm /var/cache_cleaner -rf
+	rm /etc/cache_cleaner -rf

@@ -11,7 +11,7 @@ pub fn check_if_path_exist(path: &String) -> bool{
 	fs::metadata(path).is_ok()
 }
 
-fn read_file(filename: &String, debug: bool) -> Vec<String>{
+fn read_file(filename: &String, mode: u8) -> Vec<String>{
 	
 	let f = File::open(&filename).expect("file not found");
 	let file = BufReader::new(&f);
@@ -24,7 +24,7 @@ fn read_file(filename: &String, debug: bool) -> Vec<String>{
 			work_vec.push(l);  
 		}
 	}
-	if debug == true{
+	if mode == 1{
 		for i in 0..work_vec.len(){
 			println!("Debug {}", work_vec[i].to_string());
 		}
@@ -38,11 +38,11 @@ fn read_file(filename: &String, debug: bool) -> Vec<String>{
 //[user_dir]{
 //[system_file]{
 //[system_dir]{
-pub fn parse_config(section: &String, debug: bool) -> (Vec<String>, usize, usize){
+pub fn parse_config(section: &String, mode: u8) -> (Vec<String>, usize, usize){
 
-	let pth = "/etc/clear_cache/clear_cache.conf".to_string();
+	let pth = "/etc/cache_cleaner/cache_cleaner.conf".to_string();
 
-	let work_vec = read_file(&pth, debug);
+	let work_vec = read_file(&pth, mode);
 	let sec = section.to_string();
 	let mut starting_index: usize = 0;
 	let mut count: usize = 0;
@@ -54,7 +54,7 @@ pub fn parse_config(section: &String, debug: bool) -> (Vec<String>, usize, usize
 		if work_vec[i] == sec{
 			// The plus one is to not include the header itself
 			starting_index = i + 1;
-			if debug == true {
+			if mode == 1 {
 				println!("Starting index: {}", work_vec[starting_index - 1]);
 			}
 		}
@@ -68,5 +68,5 @@ pub fn parse_config(section: &String, debug: bool) -> (Vec<String>, usize, usize
 			break;
 		}
 	}
-	return (work_vec, starting_index, end_index)
+	(work_vec, starting_index, end_index)
 }

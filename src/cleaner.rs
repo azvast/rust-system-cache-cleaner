@@ -13,75 +13,94 @@ use utils;
 // Ideally it should be under /var
 
 /// This function delete users cache
-pub fn delete_user_cache(debug: bool){
-	utils::write_log_file(debug, "====================== User Files ======================");
+pub fn delete_user_cache(mode: u8){
+	//[user_dir]{
+	//[user_file]{
+	
 	let sec = "[user_file]{".to_string();
-	delete_file(debug, &sec);
-
-	utils::write_log_file(debug, "====================== User Directories ======================");
 	let sec1 = "[user_dir]{".to_string();
-	delete_dir(debug, &sec1);
+
+	delete_dir(mode, &sec1);
+	delete_file(mode ,&sec);
+	
 }
 
 // This function delete system cache 
-pub fn delete_system_cache(debug: bool){
+pub fn delete_system_cache(mode: u8){
 	//[system_file]{
 	//[system_dir]{
-	utils::write_log_file(debug, "====================== System Files ======================");
 	let sec = "[system_file]{".to_string();
-	delete_file(debug, &sec);
-
-	utils::write_log_file(debug, "====================== System Directories ======================");
 	let sec1 = "[system_dir]{".to_string();
-	delete_dir(debug, &sec1);
+	
+	delete_dir(mode, &sec1);
+	delete_file(mode, &sec);
+	
 }
 
-fn delete_dir(debug: bool, sec: &String){
-	//[user_dir]{
-	
-	let (path_file_vec, start_line, end_line) = conf::parse_config(&sec, debug);
+fn delete_dir(mode: u8, sec: &String){
+
+	let home: Vec<String>  = utils::get_users(mode);
+	let (tmp_path_file_vec, start_line, end_line) = conf::parse_config(&sec, mode);
+	let mut path_file_vec = Vec::new();
+
+	for i in 0..home.len(){
+		for x in 0..path_file_vec.len(){
+			path_file_vec.push(home[i].to_string() + &tmp_path_file_vec[x].to_string());
+			println!("{}", path_file_vec[x]);
+		}
+	}
+	// I have mode value here
+
+	let tmp_mode = mode;
+	for x in start_line..path_file_vec.len(){
+		// I do not have mode value here
+		if tmp_mode == 1 && x == end_line{
+			println!("endline: {}", end_line);
+			break;
+		}
+		println!("Value of mode {}", &tmp_mode);
+		if conf::check_if_path_exist(&path_file_vec[x]) == true{
+			println!("Value of mode inside of if {}", &mode);
+			fs::remove_file(&path_file_vec[x]).expect("Failded to delete");
+			if (tmp_mode == 2) || (tmp_mode == 1){
+				println!("Deleted dir: {}", path_file_vec[x]);
+			}
+		} else {
+			//if (mode == 2) || (mode == 1){
+			if (tmp_mode == 2) || (tmp_mode == 1){
+				println!("Dir didn't exist: {}", path_file_vec[x]);
+			}
+		}
+	}
+}
+
+fn delete_file(mode: u8, sec: &String){
+	let home: Vec<String>  = utils::get_users(mode);
+	let (tmp_path_file_vec, start_line, end_line) = conf::parse_config(&sec, mode);
+	let mut path_file_vec = Vec::new();
+
+	for i in 0..home.len(){
+		for x in 0..path_file_vec.len(){
+			path_file_vec.push(home[i].to_string() + &tmp_path_file_vec[x].to_string());
+			println!("{}", path_file_vec[x]);
+		}
+	}
 
 	for x in start_line..path_file_vec.len(){
-		let for_vec = path_file_vec[x].to_string();
-
-		if debug == true && x == end_line{
+		if mode == 1 && x == end_line{
 			println!("endline: {}", end_line);
 			break;
-		}
-		if conf::check_if_path_exist(&for_vec) == true{
-			fs::remove_file(&for_vec).expect("Failded to delete");
-			if debug == true {
-				println!("Deleted dir: {}", for_vec);
+		} 
+		if conf::check_if_path_exist(&path_file_vec[x]) == true{
+			fs::remove_dir(&path_file_vec[x]).expect("Failded to delete");
+			if (mode == 2) || (mode == 1){
+				println!("Deleted file: {}", path_file_vec[x]);
 			}
 		} else {
-			if debug == true{
-				println!("Dir didn't exist: {}", for_vec);
+			if (mode == 2) || (mode == 1){
+				println!("File didn't exist: {}", path_file_vec[x]);
 			}
 		}
 	}
 }
 
-fn delete_file(debug: bool, sec: &String){
-	//[user_file]{
-	
-	let (path_dir_vec, start_line, end_line) = conf::parse_config(&sec, debug);
-
-	for x in start_line..path_dir_vec.len(){
-		let for_vec = path_dir_vec[x].to_string();
-
-		if debug == true && x == end_line{
-			println!("endline: {}", end_line);
-			break;
-		}
-		if conf::check_if_path_exist(&for_vec) == true{
-			fs::remove_dir_all(&for_vec).expect("Failded to delete");
-			if debug == true {
-				println!("Deleted file: {}", for_vec);
-			}
-		} else {
-			if debug == true {
-				println!("File didn't exist: {}", for_vec);
-			}	
-		}
-	}
-}
