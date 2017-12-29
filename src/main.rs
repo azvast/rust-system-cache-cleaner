@@ -1,4 +1,3 @@
-
 extern crate clap;
 
 use clap::{Arg, App, AppSettings};
@@ -24,6 +23,11 @@ fn main() {
             .value_name("FILE")
             .help("Sets a custom config file")
 			.takes_value(true))
+		.arg(Arg::with_name("delete_system_cache")
+            .short("D")
+            .long("delete_system")
+            .help("Delete System cache, Must be root")
+			.takes_value(true))
 		.arg(Arg::with_name("verbose")
 			.short("v")
 			.long("verbose")
@@ -47,6 +51,7 @@ fn main() {
 		cleaner::delete_user_cache(2);
 
 		if utils::am_root() == true{
+			println!("Running as root");
 			cleaner::delete_system_cache(2);
 		}else {
 			println!("Not running as root");
@@ -57,6 +62,7 @@ fn main() {
 		cleaner::delete_user_cache(1);
 
 		if utils::am_root() == true{
+			println!("Running as root");
 			cleaner::delete_system_cache(1);
 		}else {
 			println!("Not running as root");
@@ -66,11 +72,12 @@ fn main() {
 		cleaner::delete_user_cache(0);
 
 		if utils::am_root() == true{
+			println!("Running as root");
 			cleaner::delete_system_cache(0);
+		}else {
+			println!("Not running as root");
 		}
-	}
-		
-		
+	}		
 }
 
 

@@ -1,3 +1,5 @@
+export CARGO_CFG_TARGET_FEATURE=sse,crt-static
+
 build:
 	cargo build
 rbuild:
