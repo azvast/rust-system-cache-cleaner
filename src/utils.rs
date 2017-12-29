@@ -55,7 +55,7 @@ pub fn get_users(mode: u8) -> Vec<String>{
                 println!("i: {}", i);
             }
 
-            if user_vec[index] != "/" && user_vec[index] != "/dev/null" && user_vec[index] != "/var/lib/avahi-autoipd"{
+            if user_vec[index] != "/" && user_vec[index] != "/dev/null" && user_vec[index] != "/var/lib/avahi-autoipd" && user_vec[index] != "/var/spool/cups" && user_vec[index] != "/var/lightdm" && user_vec[index] != "/var/lib/colord" && user_vec[index] != "/var/run/dbus"{
                 let tmp = &user_vec[index];
                 user_path.push(tmp.to_string());
 

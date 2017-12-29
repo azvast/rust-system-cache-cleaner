@@ -19,7 +19,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 live honorably, harm no one, give to each his own.
 */
+#[macro_use]		// This allows you to use macros of crates
 extern crate clap;
+extern crate log;
 
 use clap::{Arg, App, AppSettings};
 mod cleaner;
@@ -29,15 +31,15 @@ mod utils;
 fn main() {
 	// Defines command line arguments.
 	let matches = App::new("Cache Cleaner")
-		.version("0.1.0")												// version
-		.author("Dakota James Owen Keeler <Bearzrobotics@gmail.com>")	// name
+		.version(crate_version!())												// version
+		.author(crate_authors!())	// name
 		.about("This is a simple util to clean cache up on my system")
 		.setting(AppSettings::ColorAuto)
 		.arg(Arg::with_name("debug")
 			.short("d")
 			.long("debug")
 			.takes_value(false)
-			.help("This sets the debuing flag to true, printing out all debuging info.\n Don't run with verbose. This will print out all info that verbose does."))
+			.help("This sets the debuing flag to true, printing out all debuging info. Don't run with verbose. This will print out all info that verbose does."))
 		.arg(Arg::with_name("delete_all_cache")
             .short("a")
             .long("delete_allr")
@@ -51,13 +53,13 @@ fn main() {
 		.arg(Arg::with_name("delete_user_cache")
             .short("u")
             .long("delete_user")
-            .help("Delete user cache, If not running as root it will only delete the current users. \r\n <If no options supplied this is the defualt>")
+            .help("Delete user cache, If not running as root it will only delete the current users. <If no options supplied this is the defualt>")
 			.takes_value(false))
 		.arg(Arg::with_name("verbose")
 			.short("v")
 			.long("verbose")
 			.takes_value(false)
-			.help("This sets the verbose flag to true, printing out verbose info. Less than debug though.\r\n Don't run with debug"))
+			.help("This sets the verbose flag to true, printing out verbose info. Less than debug though. Don't run with debug"))
 		.get_matches();		
 
 	//let all_flag = matches.value_of("all");
