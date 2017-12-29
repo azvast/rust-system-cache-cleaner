@@ -1,9 +1,13 @@
 [package]
 name = "cache_cleaner"
-version = "0.1.0"
+version = "0.2.0"
 authors = ["Dakota <Bearzrobotics@gmail.com>"]
 
 [dependencies]
 clap = "2.29.0"
+log = "0.4.0"
+
+
+# Might use in the furture
 #rust-ini = "0.10.0"
 #ansi_term = "0.10.2"

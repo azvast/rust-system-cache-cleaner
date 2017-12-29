@@ -1,3 +1,9 @@
+https://www.freedesktop.org/software/systemd/man/systemd.unit.html
+http://patrakov.blogspot.com/2011/01/writing-systemd-service-files.html
+https://unix.stackexchange.com/questions/15348/writing-basic-systemd-service-files
+https://www.devdungeon.com/content/creating-systemd-service-files
+
+
 extern crate core;
 
 use std::io::BufReader;
@@ -26,97 +32,12 @@ fn main() {
 //	parse_vec
 //}
 
-
-
-path_file_vec.push("/home/dakota/.mozilla/firefox/fngozv6t.default/formhistory.sqlite");
-	path_file_vec.push("/home/dakota/.mozilla/firefox/fngozv6t.default/storage-sync.sqlite");
-	path_file_vec.push("/home/dakota/.mozilla/firefox/fngozv6t.default/places.sqlite");
-	path_file_vec.push("/home/dakota/.mozilla/firefox/fngozv6t.default/storage.sqlite");
-	path_file_vec.push("/home/dakota/.mozilla/firefox/fngozv6t.default/webappsstore.sqlite");
-	path_file_vec.push("/home/dakota/.mozilla/firefox/fngozv6t.default/permissions.sqlite");
-	path_file_vec.push("/home/dakota/.mozilla/firefox/fngozv6t.default/kinto.sqlite");
-	path_file_vec.push("/home/dakota/.mozilla/firefox/fngozv6t.default/favicons.sqlite");
-	path_file_vec.push("/home/dakota/.mozilla/firefox/fngozv6t.default/cookies.sqlite");
-	//Google Chrome
-	path_file_vec.push("/home/dakota/.config/google-chrome/Local State");
-	// Vlc
-	path_file_vec.push("/home/dakota/.config/vlc/vlc-qt-interface.conf");
-	path_file_vec.push("/home/dakota/.config/vlc/vlc-qt-interface.conf");
-	path_file_vec.push("/home/dakota/.config/vlc/vlc-qt-interface.conf");
-	// Transmission 
-	path_file_vec.push("/home/dakota/.config/transmission/stats.json");
-	//Flash
-	path_file_vec.push("/home/dakota/.adobe/Flash_Player/AssetCache/XAZN9C5F");
-	path_file_vec.push("/home/dakota/.macromedia/Flash_Player/#SharedObjects/LTN8XVF7");
-	path_file_vec.push("/home/dakota/.macromedia/Flash_Player/macromedia.com/support/flashplayer/sys/settings.sol");
-	// Tracker
-	path_file_vec.push("/home/dakota/.cache/tracker/ontologies.gvdb");
-	path_file_vec.push("/home/dakota/.cache/tracker/first-index.txt");
-	path_file_vec.push("/home/dakota/.cache/tracker/db-version.txt");
-	path_file_vec.push("/home/dakota/.cache/tracker/meta.db");
-	path_file_vec.push("/home/dakota/.cache/tracker/meta.db-shm");
-	path_file_vec.push("/home/dakota/.cache/tracker/locale-for-miner-apps.txt");
-	path_file_vec.push("/home/dakota/.cache/tracker/meta.db-wal");
-	path_file_vec.push("/home/dakota/.cache/tracker/last-crawl.txt");
-	path_file_vec.push("/home/dakota/.cache/tracker/db-locale.txt");
-	path_file_vec.push("/home/dakota/.cache/tracker/parser-sha1.txt");
-
-
-
-
-
-
-
-
-
-
-    	let pth = "/home/dakota/git/cache_cleaner/src/config/clear_cache.conf".to_string();
-	let work_vec = read_file(&pth, debug);
-	let out_vec = Vec::new();
-	
-	let sec = section.to_string();
-	let mut starting_index: usize = 0;
-	let mut count: usize = 0;
-	let mut end_vec: usize = 0;
-
-	for i in 0..work_vec.len(){
-		if work_vec[i] == sec{
-			starting_index = i;
-			println!("for loop {}", work_vec[starting_index]);
-		}
-		//if work_vec[i] != "0" && work_vec[i] == "}" {
-		//}
-	}
-
-	//while work_vec[starting_index] != "}" {
-	//	let temp = work_vec[starting_index].to_string();
-	//	println!("This prints the value of temp: {}", temp);
-		//out_vec.push[temp];
-	//}
-	return out_vec
-
-
-
-
-	fn read_file<'a>(filename: &String, debug: bool) -> Vec<String>{
-	let f = File::open(filename).expect("file not found");
-	let file = BufReader::new(&f);
-	let mut work_vec = Vec::new();
-
-	for line in file.lines(){
-		let l = line.unwrap();
-		if l.starts_with("/") == true || l.starts_with("[") == true || l.starts_with("}"){
-			work_vec.push(l);  
-		}
-	}
-	if debug == true{
-		for i in 0..work_vec.len(){
-			println!("{}", work_vec[i].to_string());
-		}
-	}
-	return work_vec
-}
-
+        .arg(Arg::with_name("config")
+            .short("c")
+            .long("config")
+            .value_name("FILE")
+            .help("Sets a custom config file")
+			.takes_value(true))
 
 
 
