@@ -20,7 +20,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 live honorably, harm no one, give to each his own.
 */
 use std::io::{BufReader, BufRead, Write};
-use std::fs:: {File};
+use std::fs:: {File, OpenOptions};
 use std::env;
 use conf;
 
@@ -42,7 +42,6 @@ pub fn get_users(mode: u8) -> Vec<String>{
     if am_root() == true {
         let (user_vec, line_counter) = filter_passwd(mode);
         let mut index = 5;                                          // This is the sixths value of the passwd file
-        // /dev/null Do something with it
 
         let kill_index = line_counter * 7;
 
@@ -101,7 +100,6 @@ fn get_log_path(mode: u8) -> String{
     } else {
         return home
     }
-
 }
 
 fn filter_passwd(mode: u8) -> (Vec<String>, usize){
@@ -118,7 +116,6 @@ fn filter_passwd(mode: u8) -> (Vec<String>, usize){
     let mut line_counter: usize = 0;                 // This keeps track of how man lines we interate through
     let mut pass_vec: Vec<String> = Vec::new();      // creates a vector for storing values in it.
                                                      // not calling it work_vec for a change because i actually have a better name.
-
     for line in reader.lines(){
         line_counter = line_counter + 1;
 
@@ -129,7 +126,6 @@ fn filter_passwd(mode: u8) -> (Vec<String>, usize){
             pass_vec.push(value.to_string());
             count = count + 1;
         }
-
         // This is here for debug information line_counter * 7 should give you the total index value.
         if mode == 1{
             println!("Line Counter: {}", &line_counter);
@@ -161,10 +157,16 @@ pub fn create_log_file(mode: u8){
 	}	
 }
 
-pub fn _write_log_file(mode: u8, message: &str){
+pub fn write_log_file(mode: u8, message: &str){
     let log_path = get_log_path(mode);
 
-    let mut log_file = File::create(&log_path).expect("Ubable to open file");
-    log_file.write_all(message.as_bytes()).expect("Couldn't Right file");
+    println!("{}", &message);
+    
+    let mut log_file = OpenOptions::new()
+                        .append(true)
+                        .open(&log_path)
+                        .unwrap();
+    
+    log_file.write_all(message.as_bytes()).expect("Couldn't wright file");
     log_file.sync_all().unwrap();
 }

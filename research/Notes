@@ -66,18 +66,10 @@ let (path_dir_vec, start_line, end_line) = conf::parse_config(&sec, debug);
 
 
 
-			.arg(Arg::with_name("Delete user cache")
-			.short("s")
-			.long("delete-user")
-			.takes_value(false)
-			.help("This Deletes just the user cache"))
-		.arg(Arg::with_name("Delete system cache")
-			.short("D")
-			.long("delete-system")
-			.takes_value(false)
-			.help("This Deletes the system cache <Must be root to run>"))
-		.arg(Arg::with_name("all")
-			.short("a")
-			.long("all")
-			.takes_value(false)
-			.help("This deletes both system and user cache <Must be root to run>"))
+pub fn _write_log_file(mode: u8, message: &str){
+    let log_path = get_log_path(mode);
+
+    let mut log_file = File::create(&log_path).expect("Ubable to open file");
+    log_file.write_all(message.as_bytes()).expect("Couldn't Right file");
+    log_file.sync_all().unwrap();
+}

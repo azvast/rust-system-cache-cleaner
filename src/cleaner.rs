@@ -33,7 +33,6 @@ use utils;
 pub fn delete_user_cache(mode: u8){
 	//[user_dir]{
 	//[user_file]{
-	
 	let sec = "[user_file]{".to_string();
 	let sec1 = "[user_dir]{".to_string();
 
@@ -48,8 +47,13 @@ pub fn delete_system_cache(mode: u8){
 	let sec = "[system_file]{".to_string();
 	let sec1 = "[system_dir]{".to_string();
 	
-	delete_dir(mode, &sec1);
-	delete_file(mode, &sec);
+	if utils::am_root() == true{	
+		utils::write_log_file(mode, "Running as root");
+		delete_dir(mode, &sec1);
+		delete_file(mode, &sec);
+	}else {
+		utils::write_log_file(mode, "Not running as root");
+	}
 }
 
 /// Note I believe the for loops arn't running because the vector isn't returning a proper lenght
@@ -64,7 +68,8 @@ fn delete_dir(mode: u8, sec: &String){
 			for x in 0..tmp_path_dir_vec.len(){
 				path_dir_vec.push(home[i].to_string() + &tmp_path_dir_vec[x].to_string());
 				if mode == 1 {
-					println!("{}", path_dir_vec[x]);
+					let vec_slice: &str = &path_dir_vec[x];
+					utils::write_log_file(mode, vec_slice);
 				}
 			}
 		}
@@ -82,7 +87,6 @@ fn delete_dir(mode: u8, sec: &String){
 			}
 		}
 	}
-	// Have value here
 }
 
 fn delete_file(mode: u8, sec: &String){

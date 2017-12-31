@@ -35,14 +35,9 @@ fn main() {
 		.author(crate_authors!())	// name
 		.about("This is a simple util to clean cache up on my system")
 		.setting(AppSettings::ColorAuto)
-		.arg(Arg::with_name("debug")
-			.short("d")
-			.long("debug")
-			.takes_value(false)
-			.help("This sets the debuing flag to true, printing out all debuging info. Don't run with verbose. This will print out all info that verbose does."))
 		.arg(Arg::with_name("delete_all_cache")
             .short("a")
-            .long("delete_allr")
+            .long("delete_all")
             .help("Deletes both user and system cache <Must be root>")
 			.takes_value(false))
 		.arg(Arg::with_name("delete_system_cache")
@@ -53,57 +48,33 @@ fn main() {
 		.arg(Arg::with_name("delete_user_cache")
             .short("u")
             .long("delete_user")
-            .help("Delete user cache, If not running as root it will only delete the current users. <If no options supplied this is the defualt>")
+            .help("Delete user cache, If not running as root it will only delete the current users. \r\n <If no options supplied this is the defualt>")
 			.takes_value(false))
 		.arg(Arg::with_name("verbose")
 			.short("v")
 			.long("verbose")
-			.takes_value(false)
-			.help("This sets the verbose flag to true, printing out verbose info. Less than debug though. Don't run with debug"))
+			.takes_value(true)
+			.help("Sets level of Verbose <1 = debug, 2 = verbose>"))
 		.get_matches();		
 
 	//let all_flag = matches.value_of("all");
 	//let delete_system_cache_flag = matches.value_of("Delete system cache")
 	//let delete_user_cache_flag = matches.value_of("Delete user cache")
 	//let config_flag = matches.value_of("config").unwrap();
-
+	
 	// the first value is a u8 for mode
 	// 0 = no mode
 	// 1 = debug
 	// 2 = verbose
 
 	if matches.is_present("verbose"){
-		println!("Verbose value: True");
-		utils::create_log_file(2);
-		cleaner::delete_user_cache(2);
-
-		if utils::am_root() == true{
-			println!("Running as root");
-			cleaner::delete_system_cache(2);
-		}else {
-			println!("Not running as root");
-		}
-	}else if matches.is_present("debug"){
-		println!("Debug value: True");
-		utils::create_log_file(1);
-		cleaner::delete_user_cache(1);
-
-		if utils::am_root() == true{
-			println!("Running as root");
-			cleaner::delete_system_cache(1);
-		}else {
-			println!("Not running as root");
-		}
+		let verbose_mode = value_t!(matches.value_of("verbose"), u8).unwrap_or_else(|e| e.exit());
+		utils::write_log_file(verbose_mode, "Verbose value: True");
+		utils::create_log_file(verbose_mode);
+		all(verbose_mode)
 	}else if  matches.is_present("delete_all_cache"){
 		utils::create_log_file(0);
-		cleaner::delete_user_cache(0);
-
-		if utils::am_root() == true{
-			println!("Running as root");
-			cleaner::delete_system_cache(0);
-		}else {
-			println!("Not running as root");
-		}
+		all(0);
 	}else{
 		// By Defualt deletes user cache.
 		utils::create_log_file(0);
@@ -111,4 +82,8 @@ fn main() {
 	}		
 }
 
-
+// This is made to make the if statments above easier to read
+fn all(mode: u8){
+	cleaner::delete_user_cache(mode);
+	cleaner::delete_system_cache(mode);
+}
