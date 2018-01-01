@@ -19,16 +19,35 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 live honorably, harm no one, give to each his own.
 */
-#[macro_use]		// This allows you to use macros of crates
-extern crate clap;
-extern crate log;
+#[macro_use] extern crate clap;
+#[macro_use] extern crate log;
+extern crate simplelog;
 
 use clap::{Arg, App, AppSettings};
+use std::fs::File;
+use simplelog::*;
+// custom includes
 mod cleaner;
 mod conf;
 mod utils;
 
 fn main() {
+
+	// inits logger
+
+    //error!("Bright red error");
+    //info!("This only appears in the log file");
+    //debug!("This level is currently not enabled for any logger");
+	
+	let log_path = utils::get_log_path(0);
+	CombinedLogger::init(
+		vec![
+			TermLogger::new(LogLevelFilter::Warn, Config::default()).unwrap(),
+			WriteLogger::new(LogLevelFilter::Info, Config::default(), File::create(log_path).unwrap())
+		]
+	).unwrap();
+
+
 	// Defines command line arguments.
 	let matches = App::new("Cache Cleaner")
 		.version(crate_version!())												// version
@@ -69,15 +88,12 @@ fn main() {
 
 	if matches.is_present("verbose"){
 		let verbose_mode = value_t!(matches.value_of("verbose"), u8).unwrap_or_else(|e| e.exit());
-		utils::write_log_file(verbose_mode, "Verbose value: True");
-		utils::create_log_file(verbose_mode);
+		info!("Verbose value: True");
 		all(verbose_mode)
 	}else if  matches.is_present("delete_all_cache"){
-		utils::create_log_file(0);
 		all(0);
 	}else{
 		// By Defualt deletes user cache.
-		utils::create_log_file(0);
 		cleaner::delete_user_cache(0);
 	}		
 }

@@ -21,6 +21,13 @@ tool needs to run on my uncle's system as well. He has user with
 ids less than 1000 and in weird place like /x or /c/down/z, you
 get the point. 
 
+Note: 
+
+    I'm building this against the musl target. I'm doing this so 
+    generates a static binary file. This is important to me because 
+    this program is going to be running when the system starts up 
+    and I don't want it to have to load its dependencies.
+
 Depends:
 
     I'm building this against rust 1.22.1.

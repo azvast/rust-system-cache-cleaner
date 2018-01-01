@@ -1,18 +1,20 @@
 export CARGO_CFG_TARGET_FEATURE=sse,crt-static
 
 build:
-	cargo build
+	cargo build 
 rbuild:
 	cargo build --release
 
 run:
 	cargo run
-
 rrun:
 	cargo run --release
 
 install:
-	cargo install --root /usr/
+	# cargo build --target=x86_64-unknown-linux-musl
+
+	cargo install --root /usr/ 
+
 	mkdir -p /etc/cache_cleaner/
 	cp src/config/cache_cleaner_empty.conf -apvr /etc/cache_cleaner/cache_cleaner.conf
 

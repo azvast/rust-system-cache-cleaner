@@ -48,11 +48,11 @@ pub fn delete_system_cache(mode: u8){
 	let sec1 = "[system_dir]{".to_string();
 	
 	if utils::am_root() == true{	
-		utils::write_log_file(mode, "Running as root");
+		info!("Running as root");
 		delete_dir(mode, &sec1);
 		delete_file(mode, &sec);
 	}else {
-		utils::write_log_file(mode, "Not running as root");
+		error!("Not running as root");
 	}
 }
 
@@ -69,7 +69,7 @@ fn delete_dir(mode: u8, sec: &String){
 				path_dir_vec.push(home[i].to_string() + &tmp_path_dir_vec[x].to_string());
 				if mode == 1 {
 					let vec_slice: &str = &path_dir_vec[x];
-					utils::write_log_file(mode, vec_slice);
+					println!("vec_slice[{}]: {}", x, vec_slice);
 				}
 			}
 		}

@@ -19,10 +19,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 live honorably, harm no one, give to each his own.
 */
-use std::io::{BufReader, BufRead, Write};
-use std::fs:: {File, OpenOptions};
+use std::io::{BufReader, BufRead};
+use std::fs::File;
 use std::env;
-use conf;
+
+
 
 // https://askubuntu.com/questions/410244/a-command-to-list-all-users-and-how-to-add-delete-modify-users
 // This command works awk -F'[/:]' '{if ($3 >= 1000 && $3 != 65534) print $1}' /etc/passwd
@@ -83,7 +84,7 @@ pub fn get_users(mode: u8) -> Vec<String>{
     }
 }
 
-fn get_log_path(mode: u8) -> String{
+pub fn get_log_path(mode: u8) -> String{
 	let mut home: String = env::var("HOME").expect("Couldn't find env HOME");
     
     if home == "/root" {
@@ -141,32 +142,3 @@ pub fn am_root() -> bool {
     }
 }
 
-/// This creates the log in the home dir of the user that runs the command
-pub fn create_log_file(mode: u8){
-
-    let log_path = get_log_path(mode);
-
-	if conf::check_if_path_exist(&log_path) == true{
-        if mode == 1{
-            println!("Log file already exist");
-        }
-	}else {
-		let mut log_file = File::create(&log_path).expect("Unable to create file");
-		log_file.write_all(b"File Created").unwrap();
-		log_file.sync_all().unwrap();
-	}	
-}
-
-pub fn write_log_file(mode: u8, message: &str){
-    let log_path = get_log_path(mode);
-
-    println!("{}", &message);
-    
-    let mut log_file = OpenOptions::new()
-                        .append(true)
-                        .open(&log_path)
-                        .unwrap();
-    
-    log_file.write_all(message.as_bytes()).expect("Couldn't wright file");
-    log_file.sync_all().unwrap();
-}
