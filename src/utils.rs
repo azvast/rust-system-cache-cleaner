@@ -86,14 +86,13 @@ pub fn get_users(mode: u8) -> Vec<String>{
 
 pub fn get_log_path(mode: u8) -> String{
 	let mut home: String = env::var("HOME").expect("Couldn't find env HOME");
-    
-    if home == "/root" {
-        home = "/var/cache_cleaner".to_string();
-    }
-
     let log_path: &str = "/.cache_cleaner_logs";
 
-    home.push_str(log_path);
+    if home == "/root" {
+        home = "/var/cache_cleaner/cache_cleaner_logs".to_string();
+    }else{
+        home.push_str(log_path);
+    }
 
     if mode == 1 {
         println!("Log Path: {}", &home);
