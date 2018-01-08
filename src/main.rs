@@ -32,7 +32,6 @@ mod conf;
 mod utils;
 
 fn main() {
-
 	// inits logger
 
     //error!("Bright red error");
@@ -46,7 +45,6 @@ fn main() {
 			WriteLogger::new(LogLevelFilter::Info, Config::default(), File::create(log_path).unwrap())
 		]
 	).unwrap();
-
 
 	// Defines command line arguments.
 	let matches = App::new("Cache Cleaner")
@@ -86,16 +84,35 @@ fn main() {
 	// 1 = debug
 	// 2 = verbose
 
+
 	if matches.is_present("verbose"){
+
 		let verbose_mode = value_t!(matches.value_of("verbose"), u8).unwrap_or_else(|e| e.exit());
 		info!("Verbose value: True");
-		all(verbose_mode)
-	}else if  matches.is_present("delete_all_cache"){
-		all(0);
-	}else{
-		// By Defualt deletes user cache.
-		cleaner::delete_user_cache(0);
-	}		
+
+		if matches.is_present("delete_all_cache"){
+			all(verbose_mode)
+		} else if matches.is_present("delete_system_cache"){
+			cleaner::delete_system_cache(verbose_mode);
+		} else if matches.is_present("delete_user_cache"){
+			println!("Enable user flag");
+			cleaner::delete_user_cache(verbose_mode);
+		} else {
+			cleaner::delete_user_cache(verbose_mode);
+		}
+	} else {
+		if matches.is_present("delete_all_cache"){
+			all(0)
+		} else if matches.is_present("delete_system_cache"){
+			cleaner::delete_system_cache(0);
+		} else if matches.is_present("delete_user_cache"){
+			cleaner::delete_user_cache(0);
+		} else {
+			cleaner::delete_user_cache(0);
+		}
+	}
+
+
 }
 
 // This is made to make the if statments above easier to read

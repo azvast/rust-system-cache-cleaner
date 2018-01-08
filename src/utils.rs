@@ -23,8 +23,6 @@ use std::io::{BufReader, BufRead};
 use std::fs::File;
 use std::env;
 
-
-
 // https://askubuntu.com/questions/410244/a-command-to-list-all-users-and-how-to-add-delete-modify-users
 // This command works awk -F'[/:]' '{if ($3 >= 1000 && $3 != 65534) print $1}' /etc/passwd
 // https://stackoverflow.com/questions/33294932/parsing-variable-from-delimited-file

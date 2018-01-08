@@ -15,8 +15,8 @@ to user files and folders. When running as root the program will
 parse /etc/passwd for all users. Then run the cache cleaing on 
 every user account.
 
-Right now the tool will only skip over users that have a / or 
-/dev/null for a home path. The reason for this, it because the 
+Right now the tool will only skip over users that have a /, and a few
+others like /dev/null for a home path. The reason for this, it because the 
 tool needs to run on my uncle's system as well. He has user with
 ids less than 1000 and in weird place like /x or /c/down/z, you
 get the point. 

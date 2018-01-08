@@ -5,79 +5,6 @@ https://www.devdungeon.com/content/creating-systemd-service-files
 
 cargo build --target=x86_64-unknown-linux-musl
 
-extern crate core;
-
-use std::io::BufReader;
-use std::io::BufRead;
-use std::fs::File;
-
-fn main() {
-	let pth = "/home/dakota/git/cache_cleaner/src/config/clear_cache.conf".to_string();
-	let t = read_file(&pth, true);
-	for i in 0..t.len(){
-		println!("T's value is {}", t[i]);
-	}
-	
-	//let h[]: Vec::new() = read_file("/home/dakota/git/cache_cleaner/src/config/clear_cache.conf", true);
-	//println!("{}", h[1]);	
-}
-
-//[user_file]
-//[user_dir]
-//[system_file]
-//[system_dir]
-
-
-//fn parse_vec<'a>() -> Vec<&'a &str>{
-//	let mut parse_vec: Vec<&str> = vec![];
-//	parse_vec
-//}
-
-        .arg(Arg::with_name("config")
-            .short("c")
-            .long("config")
-            .value_name("FILE")
-            .help("Sets a custom config file")
-			.takes_value(true))
-
-
-
-
-
-let (path_dir_vec, start_line, end_line) = conf::parse_config(&sec, debug);
-
-	for x in start_line..path_dir_vec.len(){
-		let for_vec = path_dir_vec[x].to_string();
-
-		if debug == true && x == end_line{
-			println!("endline: {}", end_line);
-			break;
-		}
-		if conf::check_if_path_exist(&for_vec) == true{
-			fs::remove_dir_all(&for_vec).expect("Failded to delete");
-			if debug == true || verbose == true {
-				println!("Deleted file: {}", for_vec);
-			}
-		} else {
-			if debug == true || verbose == true {
-				println!("File didn't exist: {}", for_vec);
-			}	
-		}
-	}
-
-
-
-pub fn _write_log_file(mode: u8, message: &str){
-    let log_path = get_log_path(mode);
-
-    let mut log_file = File::create(&log_path).expect("Ubable to open file");
-    log_file.write_all(message.as_bytes()).expect("Couldn't Right file");
-    log_file.sync_all().unwrap();
-}
-
-
-
-
 //  Off,
 //  Error,
 //  Warn,
@@ -112,3 +39,5 @@ pub fn write_log_file(mode: u8, message: &str, type: String){
     }
 
 }
+
+
