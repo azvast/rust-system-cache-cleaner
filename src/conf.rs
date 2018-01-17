@@ -23,9 +23,7 @@ use std::io::BufReader;
 use std::io::BufRead;
 use std::fs::File;
 use std::fs;
-
-//static pth: &'static String = "/home/dakota/git/cache_cleaner/src/config/clear_cache.conf";
-//const pth: str = "/home/dakota/git/cache_cleaner/src/config/clear_cache.conf";
+use std::env;
 
 /// This function checks if a file exist 
 pub fn check_if_path_exist(path: &String) -> bool{
@@ -34,15 +32,20 @@ pub fn check_if_path_exist(path: &String) -> bool{
 
 fn read_file(filename: &String, mode: u8) -> Vec<String>{
 	
-	let f = File::open(&filename).expect("file not found");
+	let f = File::open(&filename).expect("file not found, Make sure you installed the configs"); // the error
 	let file = BufReader::new(&f);
 	let mut work_vec = Vec::new();
 
-	// strip the comments out and vec the file
 	for line in file.lines(){
 		let l = line.unwrap();
-		if l.starts_with("/") == true || l.starts_with("[") == true || l.starts_with("}"){
-			work_vec.push(l);  
+		if cfg!(windows){
+			if l.starts_with("\\") == true || l.starts_with("[") == true || l.starts_with("}"){
+				work_vec.push(l);  
+			}
+		}else{
+			if l.starts_with("/") == true || l.starts_with("[") == true || l.starts_with("}"){
+				work_vec.push(l);  
+			}
 		}
 	}
 	if mode == 1{
@@ -50,7 +53,7 @@ fn read_file(filename: &String, mode: u8) -> Vec<String>{
 			println!("Debug {}", work_vec[i].to_string());
 		}
 	}
-	work_vec
+	work_vec	
 }
 
 // parse the user config
@@ -61,7 +64,13 @@ fn read_file(filename: &String, mode: u8) -> Vec<String>{
 //[system_dir]{
 pub fn parse_config(section: &String, mode: u8) -> Vec<String>{
 
-	let pth = "/etc/cache_cleaner/cache_cleaner.conf".to_string();
+	let pth = {
+		if cfg!(windows){
+			env::var("ProgramFiles").expect("Couldn't find env USERPROFILE") + "\\cache_cleaner\\config\\cache_cleaner.conf"
+		}else{
+			"/etc/cache_cleaner/cache_cleaner.conf".to_string()
+		}
+	};
 
 	let work_vec = read_file(&pth, mode);
 	let mut out_vec: Vec<String> = Vec::new();

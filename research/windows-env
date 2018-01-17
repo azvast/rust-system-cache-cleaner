@@ -1,0 +1,40 @@
+ALLUSERSPROFILE=C:\ProgramData
+APPDATA=C:\Users\Bearz\AppData\Roaming
+CommonProgramFiles=C:\Program Files\Common Files
+CommonProgramFiles(x86)=C:\Program Files (x86)\Common Files
+CommonProgramW6432=C:\Program Files\Common Files
+COMPUTERNAME=DESKTOP-OANUUPS
+ComSpec=C:\Windows\system32\cmd.exe
+HOMEDRIVE=C:
+HOMEPATH=\Users\Bearz
+
+LOCALAPPDATA=C:\Users\Bearz\AppData\Local
+LOGONSERVER=\\DESKTOP-OANUUPS
+NUMBER_OF_PROCESSORS=4
+OneDrive=C:\Users\Bearz\OneDrive
+OS=Windows_NT
+Path=C:\Program Files\Conan\conan;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Program Files\LLVM\bin;C:\Program Files\Git\cmd;C:\Program Files\Git\mingw64\bin;C:\Program Files\Git\usr\bin;C:\Users\Bearz\.cargo\bin;C:\Users\Bearz\AppData\Local\Microsoft\WindowsApps;;C:\Program Files\Microsoft VS Code\bin
+PATHEXT=.COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.MSC
+PROCESSOR_ARCHITECTURE=AMD64
+PROCESSOR_IDENTIFIER=Intel64 Family 6 Model 158 Stepping 9, GenuineIntel
+PROCESSOR_LEVEL=6
+PROCESSOR_REVISION=9e09
+ProgramData=C:\ProgramData
+ProgramFiles=C:\Program Files
+ProgramFiles(x86)=C:\Program Files (x86)
+ProgramW6432=C:\Program Files
+PROMPT=$P$G
+PSModulePath=C:\Program Files\WindowsPowerShell\Modules;C:\Windows\system32\WindowsPowerShell\v1.0\Modules
+PUBLIC=C:\Users\Public
+SESSIONNAME=Console
+SystemDrive=C:
+SystemRoot=C:\Windows
+TEMP=C:\Users\Bearz\AppData\Local\Temp
+TMP=C:\Users\Bearz\AppData\Local\Temp
+USERDOMAIN=DESKTOP-OANUUPS
+USERDOMAIN_ROAMINGPROFILE=DESKTOP-OANUUPS
+
+USERNAME=Bearz
+USERPROFILE=C:\Users\Bearz
+
+windir=C:\Windows

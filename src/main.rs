@@ -84,7 +84,6 @@ fn main() {
 	// 1 = debug
 	// 2 = verbose
 
-
 	if matches.is_present("verbose"){
 
 		let verbose_mode = value_t!(matches.value_of("verbose"), u8).unwrap_or_else(|e| e.exit());
@@ -111,8 +110,6 @@ fn main() {
 			cleaner::delete_user_cache(0);
 		}
 	}
-
-
 }
 
 // This is made to make the if statments above easier to read

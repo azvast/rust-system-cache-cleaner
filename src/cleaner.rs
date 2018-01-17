@@ -56,7 +56,6 @@ pub fn delete_system_cache(mode: u8){
 	}
 }
 
-/// Note I believe the for loops arn't running because the vector isn't returning a proper lenght
 fn delete_dir(mode: u8, sec: &String){
 
 	let home: Vec<String>  = utils::get_users(mode);

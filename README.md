@@ -30,7 +30,8 @@ Note:
 
 Depends:
 
-    I'm building this against rust 1.22.1.
+    I'm building this against the latest stabel rust. If on linux this requires 
+    lsb_release
 
 to build:
 
