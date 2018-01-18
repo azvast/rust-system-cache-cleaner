@@ -20,9 +20,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 live honorably, harm no one, give to each his own.
 */
 use std::io::{BufReader, BufRead};
-use std::process::Command;
 use std::fs::File;
-use std::env;
+use std::{env, fs};
+
+/// This function checks if a file exist 
+pub fn check_if_path_exist(path: &String) -> bool{
+	fs::metadata(path).is_ok()
+}
 
 // https://askubuntu.com/questions/410244/a-command-to-list-all-users-and-how-to-add-delete-modify-users
 // This command works awk -F'[/:]' '{if ($3 >= 1000 && $3 != 65534) print $1}' /etc/passwd
@@ -70,7 +74,6 @@ pub fn get_users(mode: u8) -> Vec<String>{
                 println!("User_Path: {}", user_path[i]);
             }
         }
-        
         return user_path
 
     }else{
@@ -163,21 +166,22 @@ fn filter_passwd(mode: u8) -> (Vec<String>, usize){
     (pass_vec, line_counter)
 }
 
+/// This will try and create a fill in a system dir
+/// If it was able to create the file you have admin
+/// access. If not you don't.
 #[cfg(target_os = "windows")] // for windows 
 pub fn am_root() -> bool {
-    println!(" ");
+    let pth = String::from("WINDIR\\cache_cleaner");
 
-    let h = Command::new("net")
-                .arg("user")
-                .output()
-                .expect("net command failed to start");
-    println!("{:?}", h);
-    match env::var("USER") {
-        Ok(val) => val == "root",
-        Err(_e) => false,
+    fs::create_dir(&pth);
+
+    if check_if_path_exist(&pth) == true{
+        fs::remove_file(&pth).expect("Failded to delete");
+        return true
+    }else{
+        return false
     }
 }
-
 
 #[cfg(target_os = "linux")] // for windows 
 pub fn am_root() -> bool {

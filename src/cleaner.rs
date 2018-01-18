@@ -75,7 +75,7 @@ fn delete_dir(mode: u8, sec: &String){
 	}
 
 	for x in 0..path_dir_vec.len(){
-		if conf::check_if_path_exist(&path_dir_vec[x]) == true{
+		if utils::check_if_path_exist(&path_dir_vec[x]) == true{
 			fs::remove_dir_all(&path_dir_vec[x]).expect("Failded to delete");
 			if (mode == 2) || (mode == 1){
 				println!("Deleted dir: {}", path_dir_vec[x]);
@@ -106,7 +106,7 @@ fn delete_file(mode: u8, sec: &String){
 
 	for x in 0..path_file_vec.len(){
 		// I believe this isn't working at all
-		if conf::check_if_path_exist(&path_file_vec[x]) == true{
+		if utils::check_if_path_exist(&path_file_vec[x]) == true{
 			fs::remove_file(&path_file_vec[x]).expect("Failded to delete");
 			if (mode == 2) || (mode == 1){
 				println!("Deleted file: {}", path_file_vec[x]);
