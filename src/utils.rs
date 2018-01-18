@@ -20,6 +20,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 live honorably, harm no one, give to each his own.
 */
 use std::io::{BufReader, BufRead};
+use std::process::Command;
 use std::fs::File;
 use std::env;
 
@@ -34,7 +35,7 @@ use std::env;
 /// which he creates users in non convensional places such as /x or /y and
 /// gives them user id's less than 1000. So this parse out user paths with / or /dev/null all
 /// others it will test with the check_path functions.
-#[cfg(target_os = "linux")]
+//#[cfg(target_os = "linux")]
 pub fn get_users(mode: u8) -> Vec<String>{
 
     let mut user_path: Vec<String> = Vec::new();                // used to return the path
@@ -108,59 +109,6 @@ pub fn get_log_path(mode: u8) -> String{
     }
 }
 
-pub fn get_users(mode: u8) -> Vec<String>{
-
-    let mut user_path: Vec<String> = Vec::new();                // used to return the path
-
-    if am_root() == true {
-        let (user_vec, line_counter) = filter_passwd(mode);
-        let mut index = 5;                                          // This is the sixths value of the passwd file
-
-        let kill_index = line_counter * 7;
-
-        for i in 0..user_vec.len()/7{
-            index  = index + 7;
-            if index >= kill_index {
-                break;
-            }
-            if mode == 1 {
-                println!("i: {}", i);
-            }
-
-            if user_vec[index] != "/" && user_vec[index] != "/dev/null" && user_vec[index] != "/var/lib/avahi-autoipd" && user_vec[index] != "/var/spool/cups" && user_vec[index] != "/var/lightdm" && user_vec[index] != "/var/lib/colord" && user_vec[index] != "/var/run/dbus"{
-                let tmp = &user_vec[index];
-                user_path.push(tmp.to_string());
-
-                if mode == 1 {
-                    println!("User_Vec: {}", &user_vec[index]);
-                }
-            }
-        }
-
-        if mode == 1 {            // this is hear to make sure its building the new vector right. Which it does so far.
-            for i in 0..user_path.len(){
-                println!("User_Path: {}", user_path[i]);
-            }
-        }
-        
-        return user_path
-
-    }else{
-        let home = {
-            if cfg!(windows){
-                env::var("USERPROFILE").expect("Couldn't read Var USERPROFILE")
-            } else {
-                env::var("HOME").expect("Couldn't read Var HOME") 
-            }
-        };
-        user_path.push(home);
-
-        if mode == 1 {
-            println!("User_Path: {}", user_path[0]);
-        }
-        return user_path
-    }
-}
 
 
 
@@ -215,17 +163,27 @@ fn filter_passwd(mode: u8) -> (Vec<String>, usize){
     (pass_vec, line_counter)
 }
 
+#[cfg(target_os = "windows")] // for windows 
 pub fn am_root() -> bool {
-    if cfg!(windows){
-        match env::var("USERNAME") {
-            Ok(val) => val == "root",
-            Err(_e) => false,
-        }
-    } else {
-        match env::var("USER") {
-            Ok(val) => val == "root",
-            Err(_e) => false,
-        }
+    println!(" ");
+
+    let h = Command::new("net")
+                .arg("user")
+                .output()
+                .expect("net command failed to start");
+    println!("{:?}", h);
+    match env::var("USER") {
+        Ok(val) => val == "root",
+        Err(_e) => false,
+    }
+}
+
+
+#[cfg(target_os = "linux")] // for windows 
+pub fn am_root() -> bool {
+    match env::var("USER") {
+        Ok(val) => val == "root",
+        Err(_e) => false,
     }
 }
 
