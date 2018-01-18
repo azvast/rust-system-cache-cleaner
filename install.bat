@@ -32,7 +32,7 @@ If arg1 == "help" GOTO help
 	mkdir "%ProgramFiles%\cache_cleaner\bin"
 	echo If ran with admin privlages log files are placed in "%ProgramFiles%\cache_cleaner\config"
 	mkdir "%ProgramFiles%\cache_cleaner\config"
-	cargo install --root /usr/ 
+	cargo install --root "%ProgramFiles%\cache_cleaner\bin" 
 
 	copy /y src/config/cache_cleaner_empty.conf  "%ProgramFiles%\cache_cleaner\config\cache_cleaner.conf"
 
@@ -44,10 +44,7 @@ If arg1 == "help" GOTO help
 	GOTO exit_P
 
 :uninstall
-	rm /usr/bin/cache_cleaner
-	rm /var/cache_cleaner -rf
-	rm /etc/cache_cleaner -rf
-	rm /etc/systemd/system/cache_cleaner.service
+	del "%ProgramFiles%\cache_cleaner"
 	GOTO exit_P
 
 :help

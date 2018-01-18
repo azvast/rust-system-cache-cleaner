@@ -13,3 +13,7 @@ simplelog = "0.4"
 #rust-ini = "0.10.0"
 #ansi_term = "0.10.2"
 #loggy = "0.1.7"
+
+[[bin]]
+name = "cache_cleaner"
+path = "src/main.rs"

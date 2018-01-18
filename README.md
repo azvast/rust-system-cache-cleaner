@@ -4,8 +4,7 @@ This is ment only as a tool for me to learn rust and automate
 my systems deleting of cache.
 
 Though if you still want to use it procced at your own risk.
-There is a basic config in place, but still vary bugy and not 
-working properly
+There is a basic config in place.
 
 The program wont delete system files unless running as root. 
 It has a hand full of debug/verbose options avablible.
@@ -13,7 +12,7 @@ It has a hand full of debug/verbose options avablible.
 It will detect the current running user and append its home path
 to user files and folders. When running as root the program will 
 parse /etc/passwd for all users. Then run the cache cleaing on 
-every user account.
+every user account. - On windows this feature is not implemented yet.
 
 Right now the tool will only skip over users that have a /, and a few
 others like /dev/null for a home path. The reason for this, it because the 
@@ -30,8 +29,7 @@ Note:
 
 Depends:
 
-    I'm building this against the latest stabel rust. If on linux this requires 
-    lsb_release
+    I'm building this against the latest stabel rust. 
 
 to build:
 
