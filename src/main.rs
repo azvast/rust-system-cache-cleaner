@@ -32,6 +32,7 @@ mod cleaner;
 mod conf_parser;
 mod utils;
 mod crawl;
+mod users;
 
 fn main() {
 	// inits logger

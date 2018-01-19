@@ -10,10 +10,12 @@ simplelog = "0.4"
 standard_paths = "0.4"
 
 
+
 # Might use in the furture
 #rust-ini = "0.10.0"
 #ansi_term = "0.10.2"
 #loggy = "0.1.7"
+#users = "0.6" # used for standard user listings
 
 [[bin]]
 name = "cache_cleaner"
