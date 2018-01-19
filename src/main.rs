@@ -21,6 +21,7 @@ live honorably, harm no one, give to each his own.
 */
 #[macro_use] extern crate clap;
 #[macro_use] extern crate log;
+#[macro_use] extern crate standard_paths;
 extern crate simplelog;
 
 use clap::{Arg, App, AppSettings};
@@ -28,8 +29,9 @@ use std::fs::File;
 use simplelog::*;
 // custom includes
 mod cleaner;
-mod conf;
+mod conf_parser;
 mod utils;
+mod crawl;
 
 fn main() {
 	// inits logger
@@ -72,6 +74,11 @@ fn main() {
 			.long("verbose")
 			.takes_value(true)
 			.help("Sets level of Verbose <1 = debug, 2 = verbose>"))
+		.arg(Arg::with_name("crawler")
+			.short("c")
+			.long("craw")
+			.takes_value(true)
+			.help("0 - crawl user files (defualt),  1 - crawl system files only, 2 - crawl system and user files, 3 - 0 and delete user files, 4 - 1 and delete system files, 5 - 2 and delete files"))
 		.get_matches();		
 
 	//let all_flag = matches.value_of("all");
@@ -84,6 +91,13 @@ fn main() {
 	// 1 = debug
 	// 2 = verbose
 
+	let control_byte = {
+		if matches.is_present("crawler"){
+			value_t!(matches.value_of("crawler"), u8).unwrap_or_else(|e| e.exit())
+		}else{
+			0
+		}	
+	};
 	if matches.is_present("verbose"){
 
 		let verbose_mode = value_t!(matches.value_of("verbose"), u8).unwrap_or_else(|e| e.exit());
@@ -96,6 +110,9 @@ fn main() {
 		} else if matches.is_present("delete_user_cache"){
 			println!("Enable user flag");
 			cleaner::delete_user_cache(verbose_mode);
+		} else if matches.is_present("crawler") {
+			let mut crawler = crawl::Crawler::new("/home".to_string(), "/".to_string());
+			crawler.craw(control_byte, verbose_mode);
 		} else {
 			cleaner::delete_user_cache(verbose_mode);
 		}
@@ -106,6 +123,9 @@ fn main() {
 			cleaner::delete_system_cache(0);
 		} else if matches.is_present("delete_user_cache"){
 			cleaner::delete_user_cache(0);
+		} else if matches.is_present("crawler"){
+			let mut crawler = crawl::Crawler::new("/home".to_string(), "/".to_string());
+			crawler.craw(control_byte, 0);
 		} else {
 			cleaner::delete_user_cache(0);
 		}

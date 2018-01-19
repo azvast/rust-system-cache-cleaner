@@ -22,7 +22,6 @@ live honorably, harm no one, give to each his own.
 use std::io::BufReader;
 use std::io::BufRead;
 use std::fs::File;
-use std::fs;
 use std::env;
 
 

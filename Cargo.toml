@@ -7,6 +7,7 @@ authors = ["Dakota James Owen Keeler <Bearzrobotics@gmail.com>"]
 clap = "2.29"
 log = "0.4"
 simplelog = "0.4"
+standard_paths = "0.4"
 
 
 # Might use in the furture

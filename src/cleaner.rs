@@ -21,7 +21,7 @@ live honorably, harm no one, give to each his own.
 */
 use std::fs;
 // use custom libs
-use conf;
+use conf_parser;
 use utils;
 
 /// This first checks if the log file exist
@@ -59,7 +59,7 @@ pub fn delete_system_cache(mode: u8){
 fn delete_dir(mode: u8, sec: &String){
 
 	let home: Vec<String>  = utils::get_users(mode);
-	let tmp_path_dir_vec = conf::parse_config(&sec, mode);
+	let tmp_path_dir_vec = conf_parser::parse_config(&sec, mode);
 	let mut path_dir_vec = Vec::new();
 
 	if sec == "[user_dir]{"{
@@ -90,7 +90,7 @@ fn delete_dir(mode: u8, sec: &String){
 
 fn delete_file(mode: u8, sec: &String){
 	let home: Vec<String>  = utils::get_users(mode);
-	let tmp_path_file_vec = conf::parse_config(&sec, mode);
+	let tmp_path_file_vec = conf_parser::parse_config(&sec, mode);
 	let mut path_file_vec = Vec::new();
 
 	if sec == "[user_file]{" {
