@@ -31,7 +31,7 @@ use simplelog::*;
 mod cleaner;
 mod conf_parser;
 mod utils;
-mod crawl;
+//mod crawl;
 mod users;
 
 fn main() {
@@ -92,7 +92,7 @@ fn main() {
 	// 1 = debug
 	// 2 = verbose
 
-	let control_byte = {
+	let _control_byte = {
 		if matches.is_present("crawler"){
 			value_t!(matches.value_of("crawler"), u8).unwrap_or_else(|e| e.exit())
 		}else{
@@ -112,8 +112,8 @@ fn main() {
 			println!("Enable user flag");
 			cleaner::delete_user_cache(verbose_mode);
 		} else if matches.is_present("crawler") {
-			let mut crawler = crawl::Crawler::new("/home".to_string(), "/".to_string());
-			crawler.craw(control_byte, verbose_mode);
+			//let mut crawler = crawl::Crawler::new("/home".to_string(), "/".to_string());
+			//crawler.craw(control_byte, verbose_mode);
 		} else {
 			cleaner::delete_user_cache(verbose_mode);
 		}
@@ -125,8 +125,8 @@ fn main() {
 		} else if matches.is_present("delete_user_cache"){
 			cleaner::delete_user_cache(0);
 		} else if matches.is_present("crawler"){
-			let mut crawler = crawl::Crawler::new("/home".to_string(), "/".to_string());
-			crawler.craw(control_byte, 0);
+			//let mut crawler = crawl::Crawler::new("/home".to_string(), "/".to_string());
+			//crawler.craw(control_byte, 0);
 		} else {
 			cleaner::delete_user_cache(0);
 		}

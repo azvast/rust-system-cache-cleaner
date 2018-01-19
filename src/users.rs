@@ -1,9 +1,31 @@
 use std::io::{BufReader, BufRead};
+use std::path::PathBuf;
 use std::fs::File;
+use std::fs;
 use utils;
 
-pub fn linux_users(mode: u8) -> Vec<String>{
-    let mut user_path: Vec<String> = Vec::new(); 
+#[cfg(target_os = "windows")]
+pub fn users(mode: u8) -> Vec<String> {
+	let mut user_vec = Vec::new();
+	let paths = fs::read_dir("c:\\users\\").unwrap();
+
+    for path in paths {
+        let pth = path.unwrap().path().file_name().unwrap().to_string_lossy().into_owned();
+        let mut user_path = String::from("C:\\Users\\");
+        user_path.push_str(&pth);
+        user_vec.push(user_path);
+    }
+    if mode == 1 {
+        for i in 0..user_vec.len(){
+            println!("{:?}", user_vec[i])
+        }
+    }
+    user_vec
+}
+
+#[cfg(target_os = "linux")]
+pub fn users(mode: u8) -> Vec<String>{
+    let mut user_path = Vec::new(); 
     let (user_vec, line_counter) = filter_passwd(mode);
     let mut index = 5;                                          // This is the sixths value of the passwd file
 
@@ -66,4 +88,10 @@ fn filter_passwd(mode: u8) -> (Vec<String>, usize){
         }
     }
     (pass_vec, line_counter)
+}
+
+fn filter_net_user(mode: u8) -> Vec<String>{
+    let mut user_path: Vec<String> = Vec::new();
+
+    user_path
 }

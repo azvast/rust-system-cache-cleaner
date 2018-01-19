@@ -45,13 +45,9 @@ pub fn get_users(mode: u8) -> Vec<String>{
     let mut user_path: Vec<String> = Vec::new();                // used to return the path
 
     if am_root() == true {
-        if cfg!(windows){
-            return user_path
-        }else{ 
-            user_path = users::linux_users(mode);
-            return user_path
-        }
-
+        user_path = users::users(mode);
+        return user_path
+        
     }else{
         let home = {
             if cfg!(windows){

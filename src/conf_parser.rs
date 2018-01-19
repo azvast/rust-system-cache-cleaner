@@ -23,12 +23,19 @@ use std::io::BufReader;
 use std::io::BufRead;
 use std::fs::File;
 use std::env;
-
-
+use std::process;
+use utils;
 
 fn read_file(filename: &String, mode: u8) -> Vec<String>{
+	let f = {
+		if utils::check_if_path_exist(&filename) == true{
+			File::open(&filename).expect("file not found, Make sure you installed the configs") // the error
+		}else{
+			println!("Make sure you installed the configs. Path didn't exits: {}", &filename);
+			process::exit(0)
+		}
+	};
 	
-	let f = File::open(&filename).expect("file not found, Make sure you installed the configs"); // the error
 	let file = BufReader::new(&f);
 	let mut work_vec = Vec::new();
 
@@ -53,7 +60,6 @@ fn read_file(filename: &String, mode: u8) -> Vec<String>{
 //[system_file]{
 //[system_dir]{
 pub fn parse_config(section: &String, mode: u8) -> Vec<String>{
-
 	let pth = {
 		if cfg!(windows){
 			env::var("ProgramFiles").expect("Couldn't find env USERPROFILE") + "\\cache_cleaner\\config\\cache_cleaner.conf"
