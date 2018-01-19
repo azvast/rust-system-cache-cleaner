@@ -13,7 +13,10 @@ pub fn users(mode: u8) -> Vec<String> {
         let pth = path.unwrap().path().file_name().unwrap().to_string_lossy().into_owned();
         let mut user_path = String::from("C:\\Users\\");
         user_path.push_str(&pth);
-        user_vec.push(user_path);
+        if user_path != "Public".to_string() || user_path != "desktop.ini".to_string() || user_path != "Default".to_string() || user_path != "Default User".to_string() || user_path != "All Users".to_string(){
+            user_vec.push(user_path);
+        }
+        
     }
     if mode == 1 {
         for i in 0..user_vec.len(){
