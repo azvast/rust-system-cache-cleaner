@@ -23,6 +23,13 @@ live honorably, harm no one, give to each his own.
 #[macro_use] extern crate log;
 #[macro_use] extern crate standard_paths;
 extern crate simplelog;
+extern crate ansi_term;
+
+// I plan on using these.
+#[cfg(target_os = "windows")]
+extern crate user32;
+#[cfg(target_os = "windows")]
+extern crate userenv;
 
 use clap::{Arg, App, AppSettings};
 use std::fs::File;
