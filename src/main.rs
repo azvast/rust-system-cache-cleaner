@@ -38,7 +38,7 @@ use simplelog::*;
 mod cleaner;
 mod conf_parser;
 mod utils;
-//mod crawl;
+mod crawl;
 mod users;
 
 fn main() {
@@ -63,27 +63,27 @@ fn main() {
 		.about("This is a simple util to clean cache up on my system")
 		.setting(AppSettings::ColorAuto)
 		.arg(Arg::with_name("delete_all_cache")
-            .short("a")
             .long("delete_all")
             .help("Deletes both user and system cache <Must be root>")
 			.takes_value(false))
 		.arg(Arg::with_name("delete_system_cache")
-            .short("s")
             .long("delete_system")
             .help("Delete System cache, Must be root")
 			.takes_value(false))
 		.arg(Arg::with_name("delete_user_cache")
-            .short("u")
             .long("delete_user")
             .help("Delete user cache, If not running as root it will only delete the current users. \r\n <If no options supplied this is the defualt>")
 			.takes_value(false))
+		.arg(Arg::with_name("custom_config")
+            .long("custom_config")
+            .help("Allows you to pass in a custom config into the program")
+			.takes_value(true))
 		.arg(Arg::with_name("verbose")
 			.short("v")
 			.long("verbose")
 			.takes_value(true)
 			.help("Sets level of Verbose <1 = debug, 2 = verbose>"))
 		.arg(Arg::with_name("crawler")
-			.short("c")
 			.long("craw")
 			.takes_value(true)
 			.help("0 - crawl user files (defualt),  1 - crawl system files only, 2 - crawl system and user files, 3 - 0 and delete user files, 4 - 1 and delete system files, 5 - 2 and delete files"))
@@ -99,7 +99,7 @@ fn main() {
 	// 1 = debug
 	// 2 = verbose
 
-	let _control_byte = {
+	let control_byte = {
 		if matches.is_present("crawler"){
 			value_t!(matches.value_of("crawler"), u8).unwrap_or_else(|e| e.exit())
 		}else{
@@ -119,8 +119,8 @@ fn main() {
 			println!("Enable user flag");
 			cleaner::delete_user_cache(verbose_mode);
 		} else if matches.is_present("crawler") {
-			//let mut crawler = crawl::Crawler::new("/home".to_string(), "/".to_string());
-			//crawler.craw(control_byte, verbose_mode);
+			let mut crawler = crawl::Crawler::new("/home".to_string(), "/".to_string());
+			crawler.craw(control_byte, verbose_mode);
 		} else {
 			cleaner::delete_user_cache(verbose_mode);
 		}
@@ -132,8 +132,8 @@ fn main() {
 		} else if matches.is_present("delete_user_cache"){
 			cleaner::delete_user_cache(0);
 		} else if matches.is_present("crawler"){
-			//let mut crawler = crawl::Crawler::new("/home".to_string(), "/".to_string());
-			//crawler.craw(control_byte, 0);
+			let mut crawler = crawl::Crawler::new("/home".to_string(), "/".to_string());
+			crawler.craw(control_byte, 0);
 		} else {
 			cleaner::delete_user_cache(0);
 		}
