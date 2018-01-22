@@ -1,6 +1,6 @@
 [package]
 name = "cache_cleaner"
-version = "0.1.2"
+version = "0.0.2"
 authors = ["Dakota James Owen Keeler <Bearzrobotics@gmail.com>"]
 
 [dependencies]
