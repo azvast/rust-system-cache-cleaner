@@ -1,7 +1,31 @@
-use std::io::BufReader;
-use std::io::BufRead;
+/*
+KNOW ALL MEN BY THESE PRESENTS: 'i': man [Dakota James Owen Keeler]
+copyright this software in the year of our lord 2017 under the GNU
+Public License version 2.
+Contact: bearzrobotics@gmail.com
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 2 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+live honorably, harm no one, give to each his own.
+*/
+
+// This craws based on a folder filled with xml files. To create new places
+// for it to craw, just make a new file.
+
 use std::fs::File;
-use standard_paths;
+use std::io::BufReader;
+use xml::reader::{ParserConfig, EventReader, XmlEvent};
 
 // The only public functin should be the run crawler function.
 pub struct Crawler {
@@ -42,23 +66,11 @@ impl Crawler {
         }
     }
 
-    #[cfg(target_os = "linux")]
-    fn parse_system_files(&mut self){
-
-    }
-
-    #[cfg(target_os = "windows")]
-    fn parse_system_files(&mut self){
-        
-    }
-
-    #[cfg(target_os = "linux")]
     fn parse_user_files(&mut self){
 
     }
 
-    #[cfg(target_os = "windows")]
-    fn parse_user_files(&mut self){
+    fn parse_system_files(&mut self){
         
     }
 }

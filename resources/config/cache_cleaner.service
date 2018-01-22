@@ -1,0 +1,16 @@
+##########################################
+# This is the systemd service file for   #
+# cache_cleaner                          #
+##########################################
+[Unit]
+Description=This is a simple cache cleaning utility that cleans based off from a config.
+After=network.target
+
+[Service]
+Type=simple
+User=nanodano
+ExecStart=/usr/bin/cache_cleaner
+Restart=on-abort
+
+[Install]
+WantedBy=multi-user.target

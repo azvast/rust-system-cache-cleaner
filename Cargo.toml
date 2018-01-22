@@ -7,20 +7,15 @@ authors = ["Dakota James Owen Keeler <Bearzrobotics@gmail.com>"]
 clap = "2.29"
 log = "0.4"
 simplelog = "0.4"
-standard_paths = "0.4"
 ansi_term = "0.10"
-user32-sys = "0.2"
-userenv-sys = "0.2"
+xml-rs = "0.7"
 
-# Might use in the furture
-#rust-ini = "0.10.0"
-#loggy = "0.1.7"
-#users = "0.6" # used for standard user listings
-#term_size = "0.3.1" # other things I want to do.
+# I might want these for windows
+#user32-sys = "0.2"
+#userenv-sys = "0.2"
 
 [[bin]]
 name = "cache_cleaner"
 path = "src/main.rs"
-
 
 

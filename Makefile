@@ -16,7 +16,11 @@ install:
 	cargo install --root /usr/ 
 
 	mkdir -p /etc/cache_cleaner/
-	cp src/config/cache_cleaner_empty.conf -apvr /etc/cache_cleaner/cache_cleaner.conf
+	cp resources/cache_cleaner_empty.conf -apvr /etc/cache_cleaner/cache_cleaner.conf
+
+	# Created for the cleaners
+	mkdir -p /usr/share/cache_cleaner/
+	cp resources/crawlers -aprv /usr/share/cache_cleaner/
 
 	echo
 	echo
@@ -25,7 +29,7 @@ install:
 
 	echo "If ran as root log files are placed in /var/cache_cleaner"
 	mkdir -p /var/cache_cleaner
-	cp src/config/cache_cleaner.service /etc/systemd/system/cache_cleaner.service
+	cp resources/config/cache_cleaner.service /etc/systemd/system/cache_cleaner.service
 
 uninstall:
 	rm /usr/bin/cache_cleaner

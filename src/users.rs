@@ -1,8 +1,28 @@
+/*
+KNOW ALL MEN BY THESE PRESENTS: 'i': man [Dakota James Owen Keeler]
+copyright this software in the year of our lord 2017 under the GNU
+Public License version 2.
+Contact: bearzrobotics@gmail.com
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 2 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+live honorably, harm no one, give to each his own.
+*/
 use std::io::{BufReader, BufRead};
 use std::path::PathBuf;
 use std::fs::File;
 use std::fs;
-use utils;
 
 #[cfg(target_os = "windows")]
 pub fn users(mode: u8) -> Vec<String> {
@@ -13,10 +33,10 @@ pub fn users(mode: u8) -> Vec<String> {
         let pth = path.unwrap().path().file_name().unwrap().to_string_lossy().into_owned();
         let mut user_path = String::from("C:\\Users\\");
         user_path.push_str(&pth);
+        // lets not capture the junk accouts
         if user_path != "Public".to_string() || user_path != "desktop.ini".to_string() || user_path != "Default".to_string() || user_path != "Default User".to_string() || user_path != "All Users".to_string(){
             user_vec.push(user_path);
         }
-        
     }
     if mode == 1 {
         for i in 0..user_vec.len(){
@@ -42,7 +62,6 @@ pub fn users(mode: u8) -> Vec<String>{
         if mode == 1 {
             println!("i: {}", i);
         }
-
         if user_vec[index] != "/" && user_vec[index] != "/dev/null" && user_vec[index] != "/var/lib/avahi-autoipd" && user_vec[index] != "/var/spool/cups" && user_vec[index] != "/var/lightdm" && user_vec[index] != "/var/lib/colord" && user_vec[index] != "/var/run/dbus"{
             let tmp = &user_vec[index];
             user_path.push(tmp.to_string());
