@@ -69,7 +69,7 @@ fn main() {
 			.takes_value(false))
 		.arg(Arg::with_name("delete_system_cache")
             .long("delete_system")
-            .help("Delete System cache, Must be root")
+            .help("Delete System cache, <Must be root>")
 			.takes_value(false))
 		.arg(Arg::with_name("delete_user_cache")
             .long("delete_user")
