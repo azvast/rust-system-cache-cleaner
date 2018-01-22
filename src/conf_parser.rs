@@ -22,7 +22,6 @@ live honorably, harm no one, give to each his own.
 use std::io::BufReader;
 use std::io::BufRead;
 use std::fs::File;
-use std::env;
 use std::process;
 use utils;
 
@@ -59,16 +58,9 @@ fn read_file(filename: &String, mode: u8) -> Vec<String>{
 //[user_dir]{
 //[system_file]{
 //[system_dir]{
-pub fn parse_config(section: &String, mode: u8) -> Vec<String>{
-	let pth = {
-		if cfg!(windows){
-			env::var("ProgramFiles").expect("Couldn't find env USERPROFILE") + "\\cache_cleaner\\config\\cache_cleaner.conf"
-		}else{
-			"/etc/cache_cleaner/cache_cleaner.conf".to_string()
-		}
-	};
+pub fn parse_config(section: &String, mode: u8, config_path: &String) -> Vec<String>{
 
-	let work_vec = read_file(&pth, mode);
+	let work_vec = read_file(&config_path, mode);
 	let mut out_vec: Vec<String> = Vec::new();
 	let sec = section.to_string();
 	let mut starting_index: usize = 0;

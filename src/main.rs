@@ -34,6 +34,7 @@ extern crate userenv;
 use clap::{Arg, App, AppSettings};
 use std::fs::File;
 use simplelog::*;
+use std::env;
 // custom includes
 mod cleaner;
 mod conf_parser;
@@ -106,42 +107,56 @@ fn main() {
 			0
 		}	
 	};
+
+	let config_path = {
+		if matches.is_present("custom_config"){
+			value_t!(matches.value_of("custom_config"), String).unwrap_or_else(|e| e.exit())
+		}else{
+			if cfg!(windows){
+				env::var("ProgramFiles").expect("Couldn't find env USERPROFILE") + "\\cache_cleaner\\config\\cache_cleaner.conf"
+			}else{
+				"/etc/cache_cleaner/cache_cleaner.conf".to_string()
+			}
+		}
+	};
+	
+	
 	if matches.is_present("verbose"){
 
 		let verbose_mode = value_t!(matches.value_of("verbose"), u8).unwrap_or_else(|e| e.exit());
 		info!("Verbose value: True");
 
 		if matches.is_present("delete_all_cache"){
-			all(verbose_mode)
+			all(verbose_mode, &config_path)
 		} else if matches.is_present("delete_system_cache"){
-			cleaner::delete_system_cache(verbose_mode);
+			cleaner::delete_system_cache(verbose_mode, &config_path);
 		} else if matches.is_present("delete_user_cache"){
 			println!("Enable user flag");
-			cleaner::delete_user_cache(verbose_mode);
+			cleaner::delete_user_cache(verbose_mode, &config_path);
 		} else if matches.is_present("crawler") {
 			let mut crawler = crawl::Crawler::new("/home".to_string(), "/".to_string());
 			crawler.craw(control_byte, verbose_mode);
 		} else {
-			cleaner::delete_user_cache(verbose_mode);
+			cleaner::delete_user_cache(verbose_mode, &config_path);
 		}
 	} else {
 		if matches.is_present("delete_all_cache"){
-			all(0)
+			all(0, &config_path)
 		} else if matches.is_present("delete_system_cache"){
-			cleaner::delete_system_cache(0);
+			cleaner::delete_system_cache(0, &config_path);
 		} else if matches.is_present("delete_user_cache"){
-			cleaner::delete_user_cache(0);
+			cleaner::delete_user_cache(0, &config_path);
 		} else if matches.is_present("crawler"){
 			let mut crawler = crawl::Crawler::new("/home".to_string(), "/".to_string());
 			crawler.craw(control_byte, 0);
 		} else {
-			cleaner::delete_user_cache(0);
+			cleaner::delete_user_cache(0, &config_path);
 		}
 	}
 }
 
 // This is made to make the if statments above easier to read
-fn all(mode: u8){
-	cleaner::delete_user_cache(mode);
-	cleaner::delete_system_cache(mode);
+fn all(mode: u8, config_path: &String){
+	cleaner::delete_user_cache(mode, &config_path);
+	cleaner::delete_system_cache(mode, &config_path);
 }

@@ -31,18 +31,18 @@ use utils;
 // Ideally it should be under /var
 
 /// This function delete users cache
-pub fn delete_user_cache(mode: u8){
+pub fn delete_user_cache(mode: u8, config_path: &String){
 	//[user_dir]{
 	//[user_file]{
 	let sec = "[user_file]{".to_string();
 	let sec1 = "[user_dir]{".to_string();
 
-	delete_dir(mode, &sec1);
-	delete_file(mode ,&sec);
+	delete_dir(mode, &sec1, &config_path);
+	delete_file(mode ,&sec, &config_path);
 }
 
 // This function delete system cache 
-pub fn delete_system_cache(mode: u8){
+pub fn delete_system_cache(mode: u8, config_path: &String){
 	//[system_file]{
 	//[system_dir]{
 	let sec = "[system_file]{".to_string();
@@ -50,17 +50,17 @@ pub fn delete_system_cache(mode: u8){
 	
 	if utils::am_root() == true{	
 		info!("Running as root");
-		delete_dir(mode, &sec1);
-		delete_file(mode, &sec);
+		delete_dir(mode, &sec1, &config_path);
+		delete_file(mode, &sec, &config_path);
 	}else {
 		error!("Not running as root");
 	}
 }
 
-fn delete_dir(mode: u8, sec: &String){
+fn delete_dir(mode: u8, sec: &String, config_path: &String){
 
 	let home: Vec<String>  = utils::get_users(mode);
-	let tmp_path_dir_vec = conf_parser::parse_config(&sec, mode);
+	let tmp_path_dir_vec = conf_parser::parse_config(&sec, mode, &config_path);
 	let mut path_dir_vec = Vec::new();
 
 	if sec == "[user_dir]{"{
@@ -98,9 +98,9 @@ fn delete_dir(mode: u8, sec: &String){
 	}
 }
 
-fn delete_file(mode: u8, sec: &String){
+fn delete_file(mode: u8, sec: &String, config_path: &String){
 	let home: Vec<String>  = utils::get_users(mode);
-	let tmp_path_file_vec = conf_parser::parse_config(&sec, mode);
+	let tmp_path_file_vec = conf_parser::parse_config(&sec, mode, &config_path);
 	let mut path_file_vec = Vec::new();
 
 	if sec == "[user_file]{" {
