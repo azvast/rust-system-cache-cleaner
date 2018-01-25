@@ -20,7 +20,7 @@ tool needs to run on my uncle's system as well. He has user with
 ids less than 1000 and in weird place like /x or /c/down/z, you
 get the point. 
 
-For the parser it is using the bleachbit xml files.
+For the parser I'm using a handful of xml files.
 
 Depends:
 
@@ -38,3 +38,10 @@ to install:
     rust you'll be just fine.
 
     sudo make install
+
+###To Do:
+-[x] implement basic xml layout
+-[] read events from files
+-[] create backends for the xml events
+-[] get admin support of windows working
+-[] find a way to preduce installer for windows.
