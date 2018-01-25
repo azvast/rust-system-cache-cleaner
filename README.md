@@ -39,7 +39,8 @@ to install:
 
     sudo make install
 
-###To Do:
+## To Do:
+
 -[x] implement basic xml layout
 -[] read events from files
 -[] create backends for the xml events
