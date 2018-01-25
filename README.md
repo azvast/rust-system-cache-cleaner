@@ -41,8 +41,8 @@ to install:
 
 ## To Do:
 
--[x] implement basic xml layout
--[] read events from files
--[] create backends for the xml events
--[] get admin support of windows working
--[] find a way to preduce installer for windows.
+-[x] implement basic xml layout 
+-[] read events from files 
+-[] create backends for the xml events 
+-[] get admin support of windows working 
+-[] find a way to preduce installer for windows. 
