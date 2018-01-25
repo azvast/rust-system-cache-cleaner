@@ -2,6 +2,7 @@
 name = "cache_cleaner"
 version = "0.0.2"
 authors = ["Dakota James Owen Keeler <Bearzrobotics@gmail.com>"]
+description = "This is a simple util to clean cache up on my system"
 
 [dependencies]
 clap = "2.29"
@@ -9,10 +10,12 @@ log = "0.4"
 simplelog = "0.4"
 ansi_term = "0.10"
 xml-rs = "0.7"
+wild = "0.1"
 
 # I might want these for windows
 #user32-sys = "0.2"
 #userenv-sys = "0.2"
+#winreg = "0.5"
 
 [[bin]]
 name = "cache_cleaner"

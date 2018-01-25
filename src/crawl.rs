@@ -23,14 +23,11 @@ live honorably, harm no one, give to each his own.
 // This craws based on a folder filled with xml files. To create new places
 // for it to craw, just make a new file.
 
-use std::fs::File;
-use std::io::BufReader;
-use xml::reader::{ParserConfig, EventReader, XmlEvent};
+use xml_parser;
 
 // The only public functin should be the run crawler function.
 pub struct Crawler {
-    pub starting_path:  String,
-    pub base:           String,
+    pub xml_path:       String,      //dir containing xml files
     cached_files:       Vec<String>, //Contains string of paths
 }
 
@@ -42,35 +39,45 @@ pub struct Crawler {
 ///  4 - 1 and delete system files
 ///  5 - 2 and delete files
 impl Crawler {
-    pub fn new(starting_path: String, base: String) -> Crawler{
-        Crawler{starting_path: starting_path, base: base, cached_files: vec![]}
+    pub fn new(xml_path: String) -> Crawler{
+        Crawler{xml_path: xml_path, cached_files: vec![]}
     }
 
     pub fn craw(&mut self, control_byte: u8, mode: u8){ 
+
+        // setup work
+        let xml_path = self.xml_path.clone();
+        let xml_files = xml_parser::get_xml_files(mode, xml_path);
+        xml_parser::xml_interater(xml_files);
+        
         if control_byte == 0 {
-            self.parse_user_files();
+            self.parse_user_files(mode);
         }else if control_byte == 1{
-            self.parse_system_files();
+            self.parse_system_files(mode);
         }else if control_byte == 2{
-            self.parse_user_files();
-            self.parse_system_files();
+            self.parse_user_files(mode);
+            self.parse_system_files(mode);
         }else if control_byte == 3{
-            self.parse_user_files();
+            self.parse_user_files(mode);
         }else if control_byte == 4{
-            self.parse_system_files();
+            self.parse_system_files(mode);
         }else if control_byte == 5{
-            self.parse_user_files();
-            self.parse_system_files();
+            self.parse_user_files(mode);
+            self.parse_system_files(mode);
         }else{
             println!("Crawler was not passed a valid option");
         }
     }
 
-    fn parse_user_files(&mut self){
-
+    fn parse_user_files(&mut self, mode: u8){
+        if mode == 1 {
+            println!("Parse User files");
+        }
     }
 
-    fn parse_system_files(&mut self){
-        
+    fn parse_system_files(&mut self, mode: u8){
+        if mode == 1 {
+            println!("Parse system files");
+        }
     }
 }

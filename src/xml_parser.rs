@@ -1,0 +1,68 @@
+use std::fs;
+use std::fs::File;
+use std::io::BufReader;
+use xml::reader::{ParserConfig, EventReader, XmlEvent};
+
+fn indent(size: usize) -> String {
+    const INDENT: &'static str = "    ";
+    (0..size).map(|_| INDENT)
+            .fold(String::with_capacity(size*INDENT.len()), |r, s| r + s)
+}
+
+pub fn xml_parser(xml_files: String) {
+    let file = File::open(xml_files).unwrap();
+    let file = BufReader::new(file);
+
+    let parser = EventReader::new(file);
+    let mut depth = 0;
+    for e in parser {
+        match e {
+            Ok(XmlEvent::StartElement {name, ..}) => {
+                println!("{}+{}", indent(depth), name);
+                depth += 1;
+            }
+            Ok(XmlEvent::EndElement {name}) => {
+                depth -= 1;
+                println!("{}-{}", indent(depth), name);
+            }
+            Err(e) => {
+                println!("Error: {}", e);
+                break;
+            }
+            _ => {}
+        }
+    }
+}
+
+/// This funtion goes out and make a list of paths of xml files.
+/// The reason for this, is so you can just drop in you own or delete 
+/// the undesired xmls with out having to recompile.
+pub fn get_xml_files(mode: u8, xml_dir: String) -> Vec<String> {
+	let mut xml_files = Vec::new();
+	let paths = fs::read_dir(&xml_dir).unwrap();
+
+    for path in paths {
+        let pth = path.unwrap().path().file_name().unwrap().to_string_lossy().into_owned();
+        let mut xml_path = xml_dir.clone();
+        xml_path.push_str(&pth);
+        // lets not capture the junk accouts
+        if xml_path != " ".to_string(){
+            xml_files.push(xml_path);
+        }
+    }
+    if mode == 1 {
+        for i in 0..xml_files.len(){
+            println!("{:?}", xml_files[i])
+        }
+    }
+    xml_files
+}
+
+pub fn xml_interater(xml_files: Vec<String>){
+
+    for i in 0..xml_files.len(){
+        //println!("Xml: {}", xml_files[i]);
+        xml_parser(xml_files[i].to_string());
+        println!(" ");
+    }
+}

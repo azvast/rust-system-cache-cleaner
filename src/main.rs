@@ -21,6 +21,7 @@ live honorably, harm no one, give to each his own.
 */
 #[macro_use] extern crate clap;
 #[macro_use] extern crate log;
+extern crate wild;
 extern crate xml;
 extern crate simplelog;
 extern crate ansi_term;
@@ -35,6 +36,7 @@ mod conf_parser;
 mod utils;
 mod crawl;
 mod users;
+mod xml_parser;
 
 fn main() {
 	// inits logger
@@ -55,7 +57,7 @@ fn main() {
 	let matches = App::new("Cache Cleaner")
 		.version(crate_version!())												// version
 		.author(crate_authors!())	// name
-		.about("This is a simple util to clean cache up on my system")
+		.about(crate_description!())
 		.setting(AppSettings::ColorAuto)
 		.arg(Arg::with_name("delete_all_cache")
             .long("delete_all")
@@ -72,6 +74,10 @@ fn main() {
 		.arg(Arg::with_name("custom_config")
             .long("custom_config")
             .help("Allows you to pass in a custom config into the program")
+			.takes_value(true))
+		.arg(Arg::with_name("custom_xml_crawler") // this should be a subcommand. Need to look into how to do that.
+            .long("custom_xml_crawler")
+            .help("Allows you to pass in a directory with xml files for the crawler")
 			.takes_value(true))
 		.arg(Arg::with_name("verbose")
 			.short("v")
@@ -107,40 +113,52 @@ fn main() {
 			value_t!(matches.value_of("custom_config"), String).unwrap_or_else(|e| e.exit())
 		}else{
 			if cfg!(windows){
-				env::var("ProgramFiles").expect("Couldn't find env USERPROFILE") + "\\cache_cleaner\\config\\cache_cleaner.conf"
+				env::var("ProgramFiles").expect("Couldn't find env ProgramFiles") + "\\cache_cleaner\\config\\cache_cleaner.conf"
 			}else{
 				"/etc/cache_cleaner/cache_cleaner.conf".to_string()
 			}
 		}
 	};
-	
+
+	let xml_path = {
+		if matches.is_present("custom_xml_crawler"){
+			value_t!(matches.value_of("custom_xml_crawler"), String).unwrap_or_else(|e| e.exit())
+		}else{
+			if cfg!(windows){
+				env::var("ProgramFiles").expect("Couldn't find env ProgramFiles") + "\\cache_cleaner\\crawlers\\"
+			}else{
+				"/usr/share/cache_cleaner/crawlers/".to_string()
+			}
+		}
+	};
+
 	if matches.is_present("verbose"){
 
 		let verbose_mode = value_t!(matches.value_of("verbose"), u8).unwrap_or_else(|e| e.exit());
 		info!("Verbose value: True");
 
 		if matches.is_present("delete_all_cache"){
-			all(verbose_mode, &config_path)
+			all(verbose_mode, &config_path);
 		} else if matches.is_present("delete_system_cache"){
 			cleaner::delete_system_cache(verbose_mode, &config_path);
 		} else if matches.is_present("delete_user_cache"){
 			println!("Enable user flag");
 			cleaner::delete_user_cache(verbose_mode, &config_path);
 		} else if matches.is_present("crawler") {
-			let mut crawler = crawl::Crawler::new("/home".to_string(), "/".to_string());
+			let mut crawler = crawl::Crawler::new(xml_path);
 			crawler.craw(control_byte, verbose_mode);
 		} else {
 			cleaner::delete_user_cache(verbose_mode, &config_path);
 		}
 	} else {
 		if matches.is_present("delete_all_cache"){
-			all(0, &config_path)
+			all(0, &config_path);
 		} else if matches.is_present("delete_system_cache"){
 			cleaner::delete_system_cache(0, &config_path);
 		} else if matches.is_present("delete_user_cache"){
 			cleaner::delete_user_cache(0, &config_path);
 		} else if matches.is_present("crawler"){
-			let mut crawler = crawl::Crawler::new("/home".to_string(), "/".to_string());
+			let mut crawler = crawl::Crawler::new(xml_path);
 			crawler.craw(control_byte, 0);
 		} else {
 			cleaner::delete_user_cache(0, &config_path);

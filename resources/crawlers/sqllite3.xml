@@ -1,0 +1,8 @@
+<crawler id="cleaner">
+    <name>sqlite 3</name>              
+    <info>simple database</info>              
+    <options id="cache">        
+        <info>Deletes the cache</info>          
+        <run cmd="delete" find="file" upath="~/.sqlite_history"/>
+    </options>
+</crawler>

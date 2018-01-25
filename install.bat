@@ -34,8 +34,8 @@ If arg1 == "help" GOTO help
 	mkdir "%ProgramFiles%\cache_cleaner\config"
 	cargo install --root "%ProgramFiles%\cache_cleaner\bin" 
 
-	copy /y resources/config/cache_cleaner_empty.conf  "%ProgramFiles%\cache_cleaner\config\cache_cleaner.conf"
-	copy /y resources/crawlers "%ProgramFiles%\cache_cleaner\"
+	copy  resources/config/cache_cleaner_empty.conf  "%ProgramFiles%\cache_cleaner\config\cache_cleaner.conf"
+	copy  resources/crawlers "%ProgramFiles%\cache_cleaner\"
 
 	echo
 	echo

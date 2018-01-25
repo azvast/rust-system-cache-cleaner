@@ -1,0 +1,16 @@
+<crawler id="cleaner">
+    <name>Google Chrome</name>              
+    <info>Google web browser</info>              
+    <options id="cache">        
+        <info>Deletes the cache</info>          
+        <run cmd="delete" find="glob" path="%localappdata%\Google\Chrome\User Data\B*.tmp" />
+        <run cmd="delete" find="walk_all" path="%localappdata%\Google\Chrome\User Data\Default\Application Cache\" />
+        <run cmd="delete" find="walk_all" path="%localappdata%\Google\Chrome\User Data\Default\Pepper Data\Shockwave Flash\CacheWritableAdobeRoot\" />
+        <run cmd="delete" find="walk_files" path="%localappdata%\Google\Chrome\User Data\Default\Cache\" />
+        <run cmd="delete" find="walk_files" path="%localappdata%\Google\Chrome\User Data\Default\GPUCache\" />
+        <run cmd="delete" find="walk_files" path="%localappdata%\Google\Chrome\User Data\Default\Media Cache\" />
+        <run cmd="delete" find="walk_all" upath="~/.config/google-chrome/Default/Pepper Data/Shockwave Flash/CacheWritableAdobeRoot/" />
+        <run cmd="delete" find="walk_all" upath="~/.config/google-chrome/Default/Application Cache/" />
+        <run cmd="delete" find="walk_all" upath="~/.cache/google-chrome/" />
+    </options>
+</crawler>
