@@ -1,3 +1,18 @@
+/*
+KNOW ALL MEN BY THESE PRESENTS: 'i': man [Dakota James Owen Keeler]
+copyright this software in the year of our lord 2017 under the Apache 2
+Contact: bearzrobotics@gmail.com
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the Apache 2 License
+along with this program. .
+
+live honorably, harm no one, give to each his own.
+*/
 use std::fs;
 use std::fs::File;
 use std::io::BufReader;
