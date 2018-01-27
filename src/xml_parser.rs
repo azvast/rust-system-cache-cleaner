@@ -17,6 +17,8 @@ use std::fs;
 use std::fs::File;
 use std::io::BufReader;
 use xml::reader::{EventReader, XmlEvent};
+use std::process;
+use utils;
 
 fn indent(size: usize) -> String {
     const INDENT: &'static str = "    ";
@@ -25,7 +27,15 @@ fn indent(size: usize) -> String {
 }
 
 pub fn xml_parser(xml_files: String) {
-    let file = File::open(xml_files).unwrap();
+    let file = {
+        if utils::check_if_path_exist(&xml_files) == true{
+			File::open(xml_files).expect("make sure you passed a valid direcoty")
+		}else{
+			println!("Make sure you passed a valid direcoty. You must add the / or \\ Path didn't exits: {}", xml_files);
+			process::exit(0)
+		}
+    };
+     
     let file = BufReader::new(file);
 
     let parser = EventReader::new(file);
@@ -41,8 +51,9 @@ pub fn xml_parser(xml_files: String) {
                 println!("{}-{}", indent(depth), name);
             }
             Ok(XmlEvent::Characters(parser)) => { // this displays the info in code like <name></name> but not <run d="" />
-                println!("{}", parser);
+                println!("{}{}", indent(depth), parser);
             }
+
             Err(e) => {
                 println!("Error: {}", e);
                 break;

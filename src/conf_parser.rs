@@ -53,7 +53,6 @@ fn read_file(filename: &String, mode: u8) -> Vec<String>{
 //[system_file]{
 //[system_dir]{
 pub fn parse_config(section: &String, mode: u8, config_path: &String) -> Vec<String>{
-
 	let work_vec = read_file(&config_path, mode);
 	let mut out_vec: Vec<String> = Vec::new();
 	let sec = section.to_string();

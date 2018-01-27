@@ -41,7 +41,7 @@ pub struct Crawler {
 ///  5 - 2 and delete files
 impl Crawler {
     pub fn new(xml_path: String) -> Crawler{
-        Crawler{xml_path: xml_path, cached_files: vec![]}
+        Crawler{xml_path: xml_path, cached_files: vec![], cached_dirs: vec![]}
     }
 
     pub fn craw(&mut self, control_byte: u8, mode: u8){ 
