@@ -16,7 +16,7 @@ live honorably, harm no one, give to each his own.
 use std::fs;
 use std::fs::File;
 use std::io::BufReader;
-use xml::reader::{ParserConfig, EventReader, XmlEvent};
+use xml::reader::{EventReader, XmlEvent};
 
 fn indent(size: usize) -> String {
     const INDENT: &'static str = "    ";
@@ -39,6 +39,9 @@ pub fn xml_parser(xml_files: String) {
             Ok(XmlEvent::EndElement {name}) => {
                 depth -= 1;
                 println!("{}-{}", indent(depth), name);
+            }
+            Ok(XmlEvent::Characters(parser)) => { // this displays the info in code like <name></name> but not <run d="" />
+                println!("{}", parser);
             }
             Err(e) => {
                 println!("Error: {}", e);
@@ -74,7 +77,6 @@ pub fn get_xml_files(mode: u8, xml_dir: String) -> Vec<String> {
 }
 
 pub fn xml_interater(xml_files: Vec<String>){
-
     for i in 0..xml_files.len(){
         //println!("Xml: {}", xml_files[i]);
         xml_parser(xml_files[i].to_string());

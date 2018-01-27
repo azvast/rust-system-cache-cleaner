@@ -14,9 +14,7 @@ along with this program. .
 live honorably, harm no one, give to each his own.
 */
 use std::io::{BufReader, BufRead};
-use std::path::PathBuf;
 use std::fs::File;
-use std::fs;
 
 #[cfg(target_os = "windows")]
 pub fn users(mode: u8) -> Vec<String> {
@@ -106,8 +104,4 @@ fn filter_passwd(mode: u8) -> (Vec<String>, usize){
     (pass_vec, line_counter)
 }
 
-fn filter_net_user(mode: u8) -> Vec<String>{
-    let mut user_path: Vec<String> = Vec::new();
 
-    user_path
-}

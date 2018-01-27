@@ -2,7 +2,12 @@
 name = "cache_cleaner"
 version = "0.0.2"
 authors = ["Dakota James Owen Keeler <Bearzrobotics@gmail.com>"]
-description = "This is a simple util to clean cache up on my system"
+description = "This is a simple util to help automate clean cache and other unwanted crud on my system"
+license = "Apache-2.0"
+readme = "README.md"
+repository = "https://github.com/BearzRobotics/cache_cleaner"
+keywords = ["utility", "cli", "cache", "cleaner"]
+categories = ["command-line-utilities"]
 
 [dependencies]
 clap = "2.29"
@@ -17,8 +22,17 @@ wild = "0.1"
 #userenv-sys = "0.2"
 #winreg = "0.5"
 
-[[bin]]
-name = "cache_cleaner"
-path = "src/main.rs"
+# Things to look into
+# run_script = "*"
+# self_update = "0.4" #Defenlty look at this
+
+[profile.dev]
+opt-level = 1
+
+[profile.release]
+panic="abort"
+lto=true
+
+
 
 

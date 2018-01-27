@@ -28,7 +28,8 @@ use xml_parser;
 // The only public functin should be the run crawler function.
 pub struct Crawler {
     pub xml_path:       String,      //dir containing xml files
-    cached_files:       Vec<String>, //Contains string of paths
+    cached_files:       Vec<String>, //Contains string of paths for files, from the xml
+    cached_dirs:        Vec<String>, //Contains string of paths for folders, from the xml
 }
 
 /// The control byte has a cupple modes
@@ -44,7 +45,6 @@ impl Crawler {
     }
 
     pub fn craw(&mut self, control_byte: u8, mode: u8){ 
-
         // setup work
         let xml_path = self.xml_path.clone();
         let xml_files = xml_parser::get_xml_files(mode, xml_path);

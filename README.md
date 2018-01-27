@@ -33,11 +33,8 @@ to build:
     cargo run
 
 to install:
-    Root must have access to rustc and cargo. So if you installed rust via rustup,
-    you also have to do that for your root account. If you apt installed or eopkg installed
-    rust you'll be just fine.
 
-    sudo make install
+    cargo install (This is not up on crates.io so you have to git clone the repo)
 
 ## To Do:
 

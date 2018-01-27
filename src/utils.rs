@@ -13,8 +13,6 @@ along with this program. .
 
 live honorably, harm no one, give to each his own.
 */
-use std::io::{BufReader, BufRead};
-use std::fs::File;
 use std::{env, fs};
 use users;
 

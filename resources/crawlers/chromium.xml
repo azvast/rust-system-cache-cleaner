@@ -3,10 +3,10 @@
     <info>Open source version of chrome</info>              
     <options id="cache">        
         <info>Deletes the cache</info>          
-        <run cmd="delete" find="walk_file" upath="~/.config/chromium/Default/Application Cache/" />
-        <run cmd="delete" find="walk_file" upath="~/.cache/chromium/" />
-        <run cmd="delete" find="walk_file" upath="~/.cxchromium/chromium/drive_c/windows/profiles/crossover/Local Settings/Application Data/Google/Chrome/User Data/Default/Cache" />
-        <run cmd="delete" find="walk_file" path="$localappdata\Chromium\User Data\Default\Application Cache\" />
-        <run cmd="delete" find="walk_file" path="$localappdata\Chromium\User Data\Default\Cache\" />
+        <run cmd="delete" find="walk_files" upath="~/.config/chromium/Default/Application Cache/" />
+        <run cmd="delete" find="walk_files" upath="~/.cache/chromium/" />
+        <run cmd="delete" find="walk_files" upath="~/.cxchromium/chromium/drive_c/windows/profiles/crossover/Local Settings/Application Data/Google/Chrome/User Data/Default/Cache" />
+        <run cmd="delete" find="walk_files" path="$localappdata\Chromium\User Data\Default\Application Cache\" />
+        <run cmd="delete" find="walk_files" path="$localappdata\Chromium\User Data\Default\Cache\" />
     </options>
 </crawler>

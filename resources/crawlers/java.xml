@@ -6,7 +6,7 @@
         <run cmd="delete" find="walk_files" upath="~/.java/deployment/cache/"/>
         <run cmd="delete" find="walk_all" upath="~/.icedteaplugin/cache/"/>
         <run cmd="delete" find="walk_files" path="%APPDATA%\Sun\Java\Deployment\cache\"/>
-        <run cmd="delete" find="walk_files" path=%USERPROFILE%\AppData\LocalLow\Sun\Java\Deployment\cache\"/>
+        <run cmd="delete" find="walk_files" path="%USERPROFILE%\AppData\LocalLow\Sun\Java\Deployment\cache\"/>
         <run cmd="delete" find="walk_all" upath="~/.icedtea/cache"/>
     </options>
 </crawler>
