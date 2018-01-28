@@ -15,6 +15,7 @@ live honorably, harm no one, give to each his own.
 */
 use std::io::{BufReader, BufRead};
 use std::fs::File;
+use std::fs;
 
 #[cfg(target_os = "windows")]
 pub fn users(mode: u8) -> Vec<String> {

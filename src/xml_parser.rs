@@ -35,7 +35,6 @@ pub fn xml_parser(xml_files: String) {
 			process::exit(0)
 		}
     };
-     
     let file = BufReader::new(file);
 
     let parser = EventReader::new(file);
@@ -68,7 +67,8 @@ pub fn xml_parser(xml_files: String) {
 /// the undesired xmls with out having to recompile.
 pub fn get_xml_files(mode: u8, xml_dir: String) -> Vec<String> {
 	let mut xml_files = Vec::new();
-	let paths = fs::read_dir(&xml_dir).unwrap();
+    let paths = fs::read_dir(&xml_dir).unwrap();
+
 
     for path in paths {
         let pth = path.unwrap().path().file_name().unwrap().to_string_lossy().into_owned();

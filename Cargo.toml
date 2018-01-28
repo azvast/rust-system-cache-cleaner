@@ -13,7 +13,7 @@ categories = ["command-line-utilities"]
 clap = "2.29"
 log = "0.4"
 simplelog = "0.4"
-ansi_term = "0.10"
+crossterm = "*"
 xml-rs = "0.7"
 wild = "0.1"
 

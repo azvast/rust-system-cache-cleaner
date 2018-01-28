@@ -5,39 +5,27 @@ https://www.devdungeon.com/content/creating-systemd-service-files
 
 cargo build --target=x86_64-unknown-linux-musl
 
-//  Off,
-//  Error,
-//  Warn,
-//  Info,
-//  Debug,
-//  Trace,
-pub fn write_log_file(mode: u8, message: &str, type: String){
-    let log_path = get_log_path(mode);
+            Ok(XmlEvent::next("run")) => {
+            }
 
 
-    if type == "Off"{
-        simple_logging::log_to_file(log_path, LevelFilter::Off);
-
-    }else if type == "Error"{
-        simple_logging::log_to_file(log_path, LevelFilter::Error);
-
-    }else if type == "Warn"{
-        simple_logging::log_to_file(log_path, LevelFilter::Warn);
-
-    }else if type == "Info"{
-        simple_logging::log_to_file(log_path, LevelFilter::Info);
-
-    }else if type == "Debug"{
-        simple_logging::log_to_file(log_path, LevelFilter::Debug);
-
-    }else if type == "Trace"{
-        simple_logging::log_to_file(log_path, LevelFilter::Trace);
-        
-    }else{
-        println!("No valid LevelFilter was passed");
-        std::procces::exit(0);
+ for e in parser {
+        match e {
+            Ok(XmlEvent::StartElement {name, ..}) => {
+                println!("{}+{}", indent(depth), name);
+                depth += 1;
+            }
+            Ok(XmlEvent::EndElement {name}) => {
+                depth -= 1;
+                println!("{}-{}", indent(depth), name);
+            }
+            Ok(XmlEvent::Characters(parser)) => { // this displays the info in code like <name></name> but not <run d="" />
+                println!("{}", parser);
+            }
+            Err(e) => {
+                println!("Error: {}", e);
+                break;
+            }
+            _ => {}
+        }
     }
-
-}
-
-

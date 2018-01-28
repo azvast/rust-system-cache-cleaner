@@ -18,7 +18,7 @@ live honorably, harm no one, give to each his own.
 extern crate wild;
 extern crate xml;
 extern crate simplelog;
-extern crate ansi_term;
+extern crate crossterm;
 
 use clap::{Arg, App, AppSettings};
 use std::fs::File;

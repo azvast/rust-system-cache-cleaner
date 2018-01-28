@@ -14,7 +14,7 @@ along with this program. .
 live honorably, harm no one, give to each his own.
 */
 use std::fs;
-use ansi_term::Color::{Red, Green};
+use crossterm::crossterm_style::{paint, Color};
 // use custom libs
 use conf_parser;
 use utils;
@@ -73,20 +73,11 @@ fn delete_dir(mode: u8, sec: &String, config_path: &String){
 		if utils::check_if_path_exist(&path_dir_vec[x]) == true{
 			fs::remove_dir_all(&path_dir_vec[x]).expect("Failded to delete");
 			if (mode == 2) || (mode == 1){
-				if cfg!(target_family = "unix"){
-					println!("{}: {}", Green.paint("Deleted dir"), path_dir_vec[x]);
-				}else{
-					println!("Deleted dir: {}", path_dir_vec[x]);
-				}
-				
+				println!("{}: {}", paint("Deleted dir").with(Color::Green), path_dir_vec[x]);
 			}
 		} else {
 			if (mode == 2) || (mode == 1){
-				if cfg!(target_family = "unix"){
-					println!("{}: {}", Red.paint("Dir didn't exist"), path_dir_vec[x]);
-				}else{
-					println!("Dir didn't exist: {}", path_dir_vec[x]);
-				}
+				println!("{}: {}", paint("Dir didn't exist").with(Color::Red), path_dir_vec[x]);
 			}
 		}
 	}
@@ -113,19 +104,11 @@ fn delete_file(mode: u8, sec: &String, config_path: &String){
 		if utils::check_if_path_exist(&path_file_vec[x]) == true{
 			fs::remove_file(&path_file_vec[x]).expect("Failded to delete");
 			if (mode == 2) || (mode == 1){
-				if cfg!(target_family = "unix"){
-					println!("{}: {}", Green.paint("Deleted file"), path_file_vec[x]);
-				}else{
-					println!("Deleted file: {}", path_file_vec[x]);
-				}
+				println!("{}: {}", paint("Deleted file").with(Color::Green), path_file_vec[x]);
 			}
 		} else {
 			if (mode == 2) || (mode == 1){
-				if cfg!(target_family = "unix"){
-					println!("{}: {}", Red.paint("File didn't exist"), path_file_vec[x]);
-				}else{
-					println!("File didn't exist: {}", path_file_vec[x]);
-				}
+					println!("{}: {}", paint("File didn't exist").with(Color::Red), path_file_vec[x]);
 			}
 		}
 	}
