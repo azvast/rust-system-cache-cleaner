@@ -1,0 +1,24 @@
+# This is an example file for setting up a crawler
+# Each app will have a crawler to its self. For example libreoffice
+# and gedit will have its own crawler file.
+
+# This key holds the name of the app
+# type is String
+# name=""
+
+# This key is a discription holder. This is mainly for you or some random
+# person trying to edit the crawlers
+# type is String 
+# info=""
+
+# then you have commands that can be used. All commands follow the same pattern as 
+# the keys. So for the delete command its delete="path"
+#
+# delete - Deletes file or dir. Takes a path in the form of a String
+#
+#
+#
+#
+#
+#
+

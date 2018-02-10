@@ -20,16 +20,16 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 live honorably, harm no one, give to each his own.
 */
 
-// This craws based on a folder filled with xml files. To create new places
+// This craws based on a folder filled with crawler files. To create new places
 // for it to craw, just make a new file.
 
-use xml_parser;
+use crawler_parser;
 
 // The only public functin should be the run crawler function.
-pub struct Crawler {
-    pub xml_path:       String,      //dir containing xml files
-    cached_files:       Vec<String>, //Contains string of paths for files, from the xml
-    cached_dirs:        Vec<String>, //Contains string of paths for folders, from the xml
+pub struct crawler {
+    pub crawler_path:       String,      //dir containing crawler files
+    cached_files:       Vec<String>, //Contains string of paths for files
+    cached_dirs:        Vec<String>, //Contains string of paths for folders
 }
 
 /// The control byte has a cupple modes
@@ -39,16 +39,16 @@ pub struct Crawler {
 ///  3 - 0 and delete user files
 ///  4 - 1 and delete system files
 ///  5 - 2 and delete files
-impl Crawler {
-    pub fn new(xml_path: String) -> Crawler{
-        Crawler{xml_path: xml_path, cached_files: vec![], cached_dirs: vec![]}
+impl crawler {
+    pub fn new(crawler_path: String) -> crawler{
+        crawler{crawler_path: crawler_path, cached_files: vec![], cached_dirs: vec![]}
     }
 
     pub fn craw(&mut self, control_byte: u8, mode: u8){ 
         // setup work
-        let xml_path = self.xml_path.clone();
-        let xml_files = xml_parser::get_xml_files(mode, xml_path);
-        xml_parser::xml_interater(xml_files);
+        let crawler_path = self.crawler_path.clone();
+        let crawler_files = crawler_parser::get_crawler_files(mode, crawler_path);
+        crawler_parser::crawler_interater(crawler_files);
         
         if control_byte == 0 {
             self.parse_user_files(mode);
@@ -65,7 +65,7 @@ impl Crawler {
             self.parse_user_files(mode);
             self.parse_system_files(mode);
         }else{
-            println!("Crawler was not passed a valid option");
+            println!("crawler was not passed a valid option");
         }
     }
 

@@ -16,7 +16,6 @@ live honorably, harm no one, give to each his own.
 #[macro_use] extern crate clap;
 #[macro_use] extern crate log;
 extern crate wild;
-extern crate xml;
 extern crate simplelog;
 extern crate crossterm;
 
@@ -30,7 +29,7 @@ mod conf_parser;
 mod utils;
 mod crawl;
 mod users;
-mod xml_parser;
+mod crawler_parser;
 
 fn main() {
 	// inits logger
@@ -139,7 +138,7 @@ fn main() {
 			println!("Enable user flag");
 			cleaner::delete_user_cache(verbose_mode, &config_path);
 		} else if matches.is_present("crawler") {
-			let mut crawler = crawl::Crawler::new(xml_path);
+			let mut crawler = crawl::crawler::new(xml_path);
 			crawler.craw(control_byte, verbose_mode);
 		} else {
 			cleaner::delete_user_cache(verbose_mode, &config_path);
@@ -152,7 +151,7 @@ fn main() {
 		} else if matches.is_present("delete_user_cache"){
 			cleaner::delete_user_cache(0, &config_path);
 		} else if matches.is_present("crawler"){
-			let mut crawler = crawl::Crawler::new(xml_path);
+			let mut crawler = crawl::crawler::new(xml_path);
 			crawler.craw(control_byte, 0);
 		} else {
 			cleaner::delete_user_cache(0, &config_path);

@@ -14,7 +14,6 @@ clap = "2.29"
 log = "0.4"
 simplelog = "0.4"
 crossterm = "*"
-xml-rs = "0.7"
 wild = "0.1"
 
 # I might want these for windows
