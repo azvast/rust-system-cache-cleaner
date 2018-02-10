@@ -83,8 +83,6 @@ matrix:
     #  rust: nightly
 
 before_install:
-  - sudo apt update
-  - sudo apt install gcc clang -y 
   - set -e
   - rustup self update
 
