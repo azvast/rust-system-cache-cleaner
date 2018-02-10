@@ -100,7 +100,7 @@ pub fn am_root() -> bool {
     }
 }
 
-#[cfg(target_os = "unix" )]
+#[cfg(any(unix))]
 pub fn am_root() -> bool {
     match env::var("USER") {
         Ok(val) => val == "root",
