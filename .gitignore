@@ -2,3 +2,4 @@
 cachegrind.*
 perf.*
 target
+.directory
