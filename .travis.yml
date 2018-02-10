@@ -2,9 +2,9 @@
 # https://github.com/japaric/trust/tree/v0.1.2
 
 dist: trusty
-language: none
+language: rust
 services: docker
-sudo: required
+sudo: enabled
 
 env:
   global:
