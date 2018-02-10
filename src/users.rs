@@ -39,7 +39,7 @@ pub fn users(mode: u8) -> Vec<String> {
     user_vec
 }
 
-#[cfg(target_os = "linux")]
+#[cfg(any(unix))]
 pub fn users(mode: u8) -> Vec<String>{
     let mut user_path = Vec::new(); 
     let (user_vec, line_counter) = filter_passwd(mode);
