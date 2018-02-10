@@ -2,7 +2,7 @@
 # https://github.com/japaric/trust/tree/v0.1.2
 
 dist: trusty
-language: rust
+language: none
 services: docker
 sudo: required
 
@@ -80,7 +80,6 @@ matrix:
     #  rust: nightly
 
 before_install:
-  - sudo apt remove ruby*
   - set -e
   - rustup self update
 
