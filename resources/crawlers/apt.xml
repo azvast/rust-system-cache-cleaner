@@ -1,9 +1,0 @@
-<crawler id="cleaner">
-    <name>Apt</name>              
-    <info>Debian/Ubuntu Package Manager</info>              
-    <options id="cache">        
-        <info>Deletes the cache</info>          
-        <run cmd="delete" find="glob" upath="/var/cache/apt/archives/*deb" />
-        <run cmd="delete" find="glob" upath="/var/cache/apt/archives/partial/*deb" />
-    </options>
-</crawler>

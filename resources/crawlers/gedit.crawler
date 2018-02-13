@@ -1,0 +1,5 @@
+name="gedit"
+info="The Gnome text editor"
+root="no"
+delete=HOME/.cache/gedit/gedit-metadata.xml
+delete=HOME/.gnome2/gedit-metadata.xml

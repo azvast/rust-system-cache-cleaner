@@ -13,13 +13,42 @@ along with this program. .
 
 live honorably, harm no one, give to each his own.
 */
+use wild;
 use std::{env, fs};
 use users;
+use crossterm::crossterm_style::{paint, Color};
+
+pub fn find(mode: u8, path: String) -> String{
+    if check_if_path_exist(&path) == true{
+
+    }else{
+        println!("{}: {}", paint("File/Dir didn't exist").with(Color::Red), path);
+    }
+
+    path
+}
 
 /// This function checks if a file exist 
 pub fn check_if_path_exist(path: &String) -> bool{
 	fs::metadata(path).is_ok()
 }
+
+/// 0 - means the path is nether a file or dir
+/// 1 - means its a dir
+/// 2 - means its a file
+pub fn check_if_file(path: &String) -> u8{
+    let work_path = fs::metadata(path).expect("Unable to open");;
+    
+    if work_path.is_dir() == true{
+        return 1
+    } else if work_path.is_file() == true{
+        return 2
+    }else{
+        return 0
+    }
+}
+
+
 
 // https://askubuntu.com/questions/410244/a-command-to-list-all-users-and-how-to-add-delete-modify-users
 // This command works awk -F'[/:]' '{if ($3 >= 1000 && $3 != 65534) print $1}' /etc/passwd
@@ -109,3 +138,32 @@ pub fn am_root() -> bool {
 }
 
 
+pub fn embed_env_into_string(env_name: String, path: String) -> String{
+    let var = env::var(env_name).expect("Couldn't read envermont varibale");
+    let mut tmp_path: String = var.to_string();
+    tmp_path.push_str(&path);
+    tmp_path
+}
+
+pub fn get_env(path: String) -> String{
+    let index ={
+        if cfg!(windows){
+            path.find('\\').unwrap()
+        }else{
+            path.find('/').unwrap()
+        }
+    };
+
+    let tmp_path = &path[index..];      // gets the rest of the path
+    let env_name =&path[..index];       //gets the env name at front of path
+    
+    let out_path = {
+        if index <= 0{
+            path.to_string()
+        }else{ // This is here in case the being of the string isn't an env
+            embed_env_into_string(env_name.to_string(), tmp_path.to_string())
+        }
+    }; 
+
+    out_path
+}

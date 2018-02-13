@@ -1,9 +1,0 @@
-<crawler id="cleaner">
-    <name>Eopkg</name>              
-    <info>Solus Package Manager</info>              
-    <options id="cache">        
-        <info>Deletes the cache</info>          
-        <run cmd="delete" find="walk_all" upath="/var/cache/eopkg/archives/" />
-        <run cmd="delete" find="glob" upath="/var/cache/eopkg/packages/*eopkg" />
-    </options>
-</crawler>

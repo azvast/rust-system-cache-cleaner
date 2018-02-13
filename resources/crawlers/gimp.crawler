@@ -1,0 +1,12 @@
+name="GIMP"
+info="Free and Opensource image editor"
+root="no"
+
+# dirs to be deleted
+delete=HOME/.gimp-2.4/tmp/
+delete=HOME/.gimp-2.6/tmp/
+delete=HOME/.gimp-2.8/tmp/
+wdelete=USERPROFILE\.gimp-2.4\tmp\
+wdelete=USERPROFILE\.gimp-2.6\tmp\
+wdelete=USERPROFILE\.gimp-2.8\tmp\
+

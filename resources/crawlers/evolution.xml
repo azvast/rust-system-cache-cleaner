@@ -1,9 +1,0 @@
-<crawler id="cleaner">
-    <name>evolution</name>              
-    <info>Email client</info>              
-    <options id="cache">        
-        <info>Deletes the cache</info>          
-        <run cmd="" find="walk_all" upath="~/.evolution/cache/"/>
-        <run cmd="" find="walk_all" upath="~/.cache/evolution/"/>
-    </options>
-</crawler>

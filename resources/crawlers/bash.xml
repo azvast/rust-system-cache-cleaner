@@ -1,8 +1,0 @@
-<crawler id="cleaner">
-    <name>bash</name>              
-    <info>common unix shell</info>              
-    <options id="cache">        
-        <info>Deletes the cache</info>          
-        <run cmd="delete" find="file" upath="~/.bash_history" />
-    </options>
-</crawler>

@@ -68,9 +68,9 @@ fn main() {
             .long("custom_config")
             .help("Allows you to pass in a custom config into the program")
 			.takes_value(true))
-		.arg(Arg::with_name("custom_xml_crawler") // this should be a subcommand. Need to look into how to do that.
-            .long("custom_xml_crawler")
-            .help("Allows you to pass in a directory with xml files for the crawler")
+		.arg(Arg::with_name("custom_crawlers") // this should be a subcommand. Need to look into how to do that.
+            .long("custom_crawlers")
+            .help("Allows you to pass in a directory with custom crawlers")
 			.takes_value(true))
 		.arg(Arg::with_name("verbose")
 			.short("v")
@@ -80,7 +80,7 @@ fn main() {
 		.arg(Arg::with_name("crawler")
 			.long("craw")
 			.takes_value(true)
-			.help("0 - crawl user files (defualt),  1 - crawl system files only, 2 - crawl system and user files, 3 - 0 and delete user files, 4 - 1 and delete system files, 5 - 2 and delete files"))
+			.help("0 - crawl files,  1 -craw and delete files"))
 		.get_matches();		
 
 	//let all_flag = matches.value_of("all");
@@ -92,7 +92,6 @@ fn main() {
 	// 0 = no mode
 	// 1 = debug
 	// 2 = verbose
-
 	let control_byte = {
 		if matches.is_present("crawler"){
 			value_t!(matches.value_of("crawler"), u8).unwrap_or_else(|e| e.exit())
@@ -113,9 +112,9 @@ fn main() {
 		}
 	};
 
-	let xml_path = {
-		if matches.is_present("custom_xml_crawler"){
-			value_t!(matches.value_of("custom_xml_crawler"), String).unwrap_or_else(|e| e.exit())
+	let crawlers_path = {
+		if matches.is_present("custom_crawlers"){
+			value_t!(matches.value_of("custom_crawlers"), String).unwrap_or_else(|e| e.exit())
 		}else{
 			if cfg!(windows){
 				env::var("ProgramFiles").expect("Couldn't find env ProgramFiles") + "\\cache_cleaner\\crawlers\\"
@@ -138,7 +137,7 @@ fn main() {
 			println!("Enable user flag");
 			cleaner::delete_user_cache(verbose_mode, &config_path);
 		} else if matches.is_present("crawler") {
-			let mut crawler = crawl::crawler::new(xml_path);
+			let mut crawler = crawl::Crawler::new(crawlers_path);
 			crawler.craw(control_byte, verbose_mode);
 		} else {
 			cleaner::delete_user_cache(verbose_mode, &config_path);
@@ -151,7 +150,7 @@ fn main() {
 		} else if matches.is_present("delete_user_cache"){
 			cleaner::delete_user_cache(0, &config_path);
 		} else if matches.is_present("crawler"){
-			let mut crawler = crawl::crawler::new(xml_path);
+			let mut crawler = crawl::Crawler::new(crawlers_path);
 			crawler.craw(control_byte, 0);
 		} else {
 			cleaner::delete_user_cache(0, &config_path);

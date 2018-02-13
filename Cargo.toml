@@ -16,14 +16,9 @@ simplelog = "0.4"
 crossterm = "*"
 wild = "0.1"
 
-# I might want these for windows
-#user32-sys = "0.2"
-#userenv-sys = "0.2"
-#winreg = "0.5"
-
 # Things to look into
 # run_script = "*"
-# self_update = "0.4" #Defenlty look at this
+# self_update = "0.4" #Defenlty look at this 
 
 [profile.dev]
 opt-level = 1
@@ -31,7 +26,3 @@ opt-level = 1
 [profile.release]
 panic="abort"
 lto=true
-
-
-
-

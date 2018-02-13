@@ -1,3 +1,6 @@
+### Status
+[![Build Status](https://travis-ci.org/BearzRobotics/cache_cleaner.png)](https://travis-ci.org/BearzRobotics/cache_cleaner)
+
 # cache_cleaner
 This is a small rust program to clear cache files on my system. 
 This is ment only as a tool for me to learn rust and automate 
@@ -7,7 +10,7 @@ Though if you still want to use it procced at your own risk.
 There is a basic config in place.
 
 The program wont delete system files unless running as root. 
-It has a hand full of debug/verbose options avablible.
+It has a handfull of debug/verbose options avablible.
 
 It will detect the current running user and append its home path
 to user files and folders. When running as root the program will 
@@ -20,26 +23,34 @@ tool needs to run on my uncle's system as well. He has user with
 ids less than 1000 and in weird place like /x or /c/down/z, you
 get the point. 
 
-For the parser I'm using a handful of xml files.
-
-Depends:
-
+# Depends:
     I'm building this against the latest stabel rust. 
 
-to build:
-
+# to build:
     git clone https://github.com/BearzRobotics/cache_cleaner.git
     cd cache_cleaner
     cargo run
 
-to install:
-
-    cargo install (This is not up on crates.io so you have to git clone the repo)
-
 ## To Do:
 
-- [x] implement basic xml layout 
-- [ ] read events from files 
-- [ ] create backends for the xml events 
+- [x] create basic crawler config file
+- [ ] implement the parser for the crawler file 
+- [ ] create backends for the config events 
 - [ ] get admin support of windows working 
 - [ ] find a way to preduce installer for windows. 
+
+## Tokei output
+
+-------------------------------------------------------------------------------
+ Language            Files        Lines         Code     Comments       Blanks
+-------------------------------------------------------------------------------
+ Batch                   1           55           43            0           12
+ Makefile                1           38           27            2            9
+ Markdown                1           40           40            0            0
+ Rust                    7          853          556          174          123
+ Shell                   3          104           72           13           19
+ TOML                    1           28           21            3            4
+ YAML                    1           94           55           26           13
+-------------------------------------------------------------------------------
+ Total                  15         1212          814          218          180
+-------------------------------------------------------------------------------

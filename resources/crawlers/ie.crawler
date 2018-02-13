@@ -1,0 +1,8 @@
+name="Internet Explorer"
+info="Microsoft's default web browser"
+root="no"
+
+
+wdelete=LOCALAPPDATA\Microsoft\Windows\History\History.IE5\container.dat
+wdelete=LOCALAPPDATA\Microsoft\Windows\History\desktop.ini
+wdelete=LOCALAPPDATA\Microsoft\Feeds Cache\container.dat

@@ -1,9 +1,0 @@
-<crawler id="cleaner">
-    <name>gedit</name>              
-    <info>Gnome Text Editor</info>              
-    <options id="cache">        
-        <info>Deletes the cache</info>          
-        <run cmd="delete" find="file" upath="~/.cache/gedit/gedit-metadata.xml" />
-        <run cmd="delete" find="file" upath="~/.gnome2/gedit-metadata.xml" />
-    </options>
-</crawler>

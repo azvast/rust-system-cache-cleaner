@@ -13,12 +13,31 @@
 
 # then you have commands that can be used. All commands follow the same pattern as 
 # the keys. So for the delete command its delete="path"
-#
-# delete - Deletes file or dir. Takes a path in the form of a String
-#
-#
-#
-#
+
+# root		- This spesify if the crawler has to be root or not. Options are 'yes' or 'no'.
+#				If not present it defualts to no
+# delete	- Deletes file or dir. Takes a path in the form of a String
+# wdelete	- Deletes file or dir. Takes a path in the form of a String. This one is DOS/Windows
+# find		- Searchs for files/dir.
+#				glob 		- allows the use of *. Ex: "/home/bear/pitcures/*.png"
+#				walk_files 	- like glob but recursive
+# wfind		- Searchs for files/dir. This one is DOS/Windows
+#				glob 		- allows the use of *. Ex: "c:\users\bearz\Pitcures\*.png"
+#				walk_files 	- like glob but recursive
 #
 #
 
+#### Envorment variables
+# the app only supports envorment variables at the begian of the string.
+# This is a limitation on my part. (Pull request welcome)
+# 
+# On Windows do not put the %% around your env.
+
+###############################
+#            Example          #
+###############################
+name="gedit"
+info="The Gnome text editor"
+root="no"
+delete="HOME/.cache/gedit/gedit-metadata.xml"
+delete="HOME/.gnome2/gedit-metadata.xml"

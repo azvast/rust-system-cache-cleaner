@@ -19,12 +19,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 live honorably, harm no one, give to each his own.
 */
-use std::fs;
-use std::fs::File;
-use std::io::BufReader;
-use std::process;
-use utils;
 
+//use std::fs::File;
+//use std::io::BufReader;
+//use std::process;
+use std::fs;
+use utils;
+use conf_parser;
+use cleaner;
 
 pub fn get_crawler_files(mode: u8, crawler_dir: String) -> Vec<String>{
     let mut crawler_files = Vec::new();
@@ -48,11 +50,62 @@ pub fn get_crawler_files(mode: u8, crawler_dir: String) -> Vec<String>{
     crawler_files
 }
 
-pub fn crawler_interater(crawler_files: Vec<String>){
+pub fn crawler_interater(crawler_files: Vec<String>, mode: u8, delete_file: u8){ 
     for i in 0..crawler_files.len(){
-        println!("crawlers: {}", crawler_files[i]);
-        //crawler_parser(cralwer_files[i].to_string());
+        let element_vec = conf_parser::read_file(&crawler_files[i].to_string(), mode, 2);
         println!(" ");
+        element_parser(mode, element_vec, delete_file);
     }
 
 }
+
+pub fn element_parser(mode: u8, elements: Vec<String>, delete_file: u8){
+    
+    for i in 0..elements.len(){
+        // as of right now we don't info
+
+        if elements[i].starts_with("name=") == true{
+            let mut tmp = get_data(elements[i].to_string());
+            
+        }
+        if elements[i] == "root=yes" && utils::am_root() == false{
+            if utils::am_root() == true{
+                element_parser(mode, elements.clone(), delete_file);
+            }else{
+                error!("not running as root");
+            }
+        }
+
+        if cfg!(target_family = "unix"){
+
+            if elements[i].starts_with("find=") == true{
+                println!("find");
+            }
+
+            if elements[i].starts_with("delete=") == true && delete_file == 1{
+                let tmp_path = get_data(elements[i].to_string());
+                let path = utils::get_env(tmp_path);
+                cleaner::single_delete(mode, path);
+            }
+        }else{
+            if elements[i].starts_with("wfind=") == true{
+                println!("wfind");
+            }  
+
+            if elements[i].starts_with("delete=") == true && delete_file == 1{
+                let tmp_path = get_data(elements[i].to_string());
+                let path = utils::get_env(tmp_path);
+                cleaner::single_delete(mode, path);
+            }
+
+        }
+    }
+}
+
+/// This funcion takes in an element from the config and returns the actual path data
+fn get_data(data: String) -> String {
+    let index = data.find('=').unwrap();
+    let new_str = &data[&index+1..];   
+    new_str.to_string()
+}
+

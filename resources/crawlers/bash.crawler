@@ -1,0 +1,5 @@
+name="Bash"
+info="The most common shell on unix platforms"
+root="no"
+delete=HOME/.bash_history
+

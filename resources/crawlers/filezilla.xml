@@ -1,9 +1,0 @@
-<crawler id="cleaner">
-    <name>filezilla</name>              
-    <info>FTP Program</info>              
-    <options id="cache">        
-        <info>Deletes the cache</info>          
-        <run cmd="delete" find="file" upath="~/.filezilla/recentservers.xml"/>
-        <run cmd="delete" find="file" path="$APPDATA\FileZilla\recentservers.xml"/>
-    </options>
-</crawler>

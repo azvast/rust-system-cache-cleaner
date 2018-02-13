@@ -31,8 +31,8 @@ pub fn delete_user_cache(mode: u8, config_path: &String){
 	let sec = "[user_file]{".to_string();
 	let sec1 = "[user_dir]{".to_string();
 
-	delete_dir(mode, &sec1, &config_path);
-	delete_file(mode ,&sec, &config_path);
+	section(mode, &sec1, &config_path);
+	section(mode ,&sec, &config_path);
 }
 
 // This function delete system cache 
@@ -44,73 +44,89 @@ pub fn delete_system_cache(mode: u8, config_path: &String){
 	
 	if utils::am_root() == true{	
 		info!("Running as root");
-		delete_dir(mode, &sec1, &config_path);
-		delete_file(mode, &sec, &config_path);
+		section(mode, &sec1, &config_path);
+		section(mode, &sec, &config_path);
 	}else {
 		error!("Not running as root");
 	}
 }
 
-fn delete_dir(mode: u8, sec: &String, config_path: &String){
 
+fn section(mode: u8, sec: &String, config_path: &String){
 	let home: Vec<String>  = utils::get_users(mode);
-	let tmp_path_dir_vec = conf_parser::parse_config(&sec, mode, &config_path);
-	let mut path_dir_vec = Vec::new();
+	let tmp_path_vec = conf_parser::parse_config(&sec, mode, &config_path);
+	let mut path_vec = Vec::new();
 
-	if sec == "[user_dir]{"{
+	if sec == "[user_file]{" || sec == "[system_file]{"{
 		for i in 0..home.len(){
-			for x in 0..tmp_path_dir_vec.len(){
-				path_dir_vec.push(home[i].to_string() + &tmp_path_dir_vec[x].to_string());
+			for x in 0..tmp_path_vec.len(){
+				path_vec.push(home[i].to_string() + &tmp_path_vec[x].to_string());
 				if mode == 1 {
-					let vec_slice: &str = &path_dir_vec[x];
+					println!("{}", path_vec[x]);
+				}
+			}
+		}
+	}
+	if sec == "[user_dir]{" || sec == "[system_dir]{"{
+		for i in 0..home.len(){
+			for x in 0..tmp_path_vec.len(){
+				path_vec.push(home[i].to_string() + &tmp_path_vec[x].to_string());
+				if mode == 1 {
+					let vec_slice: &str = &path_vec[x];
 					println!("vec_slice[{}]: {}", x, vec_slice);
 				}
 			}
 		}
 	}
-
-	for x in 0..path_dir_vec.len(){
-		if utils::check_if_path_exist(&path_dir_vec[x]) == true{
-			fs::remove_dir_all(&path_dir_vec[x]).expect("Failded to delete");
-			if (mode == 2) || (mode == 1){
-				println!("{}: {}", paint("Deleted dir").with(Color::Green), path_dir_vec[x]);
-			}
-		} else {
-			if (mode == 2) || (mode == 1){
-				println!("{}: {}", paint("Dir didn't exist").with(Color::Red), path_dir_vec[x]);
-			}
-		}
-	}
+	delete(mode, path_vec);
 }
 
-fn delete_file(mode: u8, sec: &String, config_path: &String){
-	let home: Vec<String>  = utils::get_users(mode);
-	let tmp_path_file_vec = conf_parser::parse_config(&sec, mode, &config_path);
-	let mut path_file_vec = Vec::new();
-
-	if sec == "[user_file]{" {
-		for i in 0..home.len(){
-			for x in 0..tmp_path_file_vec.len(){
-				path_file_vec.push(home[i].to_string() + &tmp_path_file_vec[x].to_string());
-				if mode == 1 {
-					println!("{}", path_file_vec[x]);
+/// This fuction takes a vector of paths to parse through and delete
+pub fn delete(mode: u8, paths: Vec<String>){
+	for i in 0..paths.len(){
+		if utils::check_if_path_exist(&paths[i]) == true{
+			if utils::check_if_file(&paths[i]) == 1 {
+				fs::remove_dir_all(&paths[i]).expect("Failded to delete dir");
+				if (mode == 2) || (mode == 1){
+					println!("{}: {}", paint("Deleted dir").with(Color::Green), paths[i]);
 				}
-			}
-		}
-	}
-
-	for x in 0..path_file_vec.len(){
-		// I believe this isn't working at all
-		if utils::check_if_path_exist(&path_file_vec[x]) == true{
-			fs::remove_file(&path_file_vec[x]).expect("Failded to delete");
+			}else if utils::check_if_file(&paths[i]) == 2{
+					fs::remove_file(&paths[i]).expect("Failded to delete file");
+				if (mode == 2) || (mode == 1){
+					println!("{}: {}", paint("Deleted file").with(Color::Green), paths[i]);
+				}		
+			}else{
+				println!("This is not a file or dir: {}", paths[i]);
+			} 	
+		}else{
 			if (mode == 2) || (mode == 1){
-				println!("{}: {}", paint("Deleted file").with(Color::Green), path_file_vec[x]);
+				println!("{}: {}", paint("File/Dir didn't exist").with(Color::Red), paths[i]);
 			}
-		} else {
-			if (mode == 2) || (mode == 1){
-					println!("{}: {}", paint("File didn't exist").with(Color::Red), path_file_vec[x]);
-			}
-		}
+		} 
 	}
 }
 
+/// this function is used to delete one file at a time.
+pub fn single_delete(mode: u8, path: String){
+
+	if utils::check_if_path_exist(&path) == true{
+		if utils::check_if_file(&path) == 1 {
+			fs::remove_dir_all(&path).expect("Failded to delete dir");
+			if (mode == 2) || (mode == 1){
+				println!("{}: {}", paint("Deleted dir").with(Color::Green), path);
+			}
+		}else if utils::check_if_file(&path) == 2{
+				fs::remove_file(&path).expect("Failded to delete file");
+			if (mode == 2) || (mode == 1){
+				println!("{}: {}", paint("Deleted file").with(Color::Green), path);
+			}		
+		}else{
+			println!("This is not a file or dir: {}", path);
+		} 	
+	}else{
+		if (mode == 2) || (mode == 1){
+			println!("{}: {}", paint("File/Dir didn't exist").with(Color::Red), path);
+		}
+	} 
+
+}
