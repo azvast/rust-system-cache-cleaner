@@ -17,7 +17,11 @@
 # root		- This spesify if the crawler has to be root or not. Options are 'yes' or 'no'.
 #				If not present it defualts to no
 # delete	- Deletes file or dir. Takes a path in the form of a String
+#				glob 		- allows the use of *. Ex: "/home/bear/pitcures/*.png"
+#				walk_files 	- like glob but recursive
 # wdelete	- Deletes file or dir. Takes a path in the form of a String. This one is DOS/Windows
+#				glob 		- allows the use of *. Ex: "/home/bear/pitcures/*.png"
+#				walk_files 	- like glob but recursive
 # find		- Searchs for files/dir.
 #				glob 		- allows the use of *. Ex: "/home/bear/pitcures/*.png"
 #				walk_files 	- like glob but recursive
@@ -39,5 +43,5 @@
 name="gedit"
 info="The Gnome text editor"
 root="no"
-delete="HOME/.cache/gedit/gedit-metadata.xml"
+delete_glob="HOME/.cache/gedit/*.xml"
 delete="HOME/.gnome2/gedit-metadata.xml"

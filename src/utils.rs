@@ -1,12 +1,7 @@
 /*
-KNOW ALL MEN BY THESE PRESENTS: 'i': man [Dakota James Owen Keeler]
-copyright this software in the year of our lord 2017 under the Apache 2
+This software is copyrighted under the Apache 2 License
+in the year of our lord and savior christ.
 Contact: bearzrobotics@gmail.com
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
 
 You should have received a copy of the Apache 2 License
 along with this program. .

@@ -34,23 +34,7 @@ get the point.
 ## To Do:
 
 - [x] create basic crawler config file
-- [ ] implement the parser for the crawler file 
+- [x] implement the parser for the crawler file 
 - [ ] create backends for the config events 
 - [ ] get admin support of windows working 
 - [ ] find a way to preduce installer for windows. 
-
-## Tokei output
-
--------------------------------------------------------------------------------
- Language            Files        Lines         Code     Comments       Blanks
--------------------------------------------------------------------------------
- Batch                   1           55           43            0           12
- Makefile                1           38           27            2            9
- Markdown                1           40           40            0            0
- Rust                    7          853          556          174          123
- Shell                   3          104           72           13           19
- TOML                    1           28           21            3            4
- YAML                    1           94           55           26           13
--------------------------------------------------------------------------------
- Total                  15         1212          814          218          180
--------------------------------------------------------------------------------

@@ -1,12 +1,7 @@
 /*
-KNOW ALL MEN BY THESE PRESENTS: 'i': man [Dakota James Owen Keeler]
-copyright this software in the year of our lord 2017 under the Apache 2
+This software is copyrighted under the Apache 2 License
+in the year of our lord and savior christ.
 Contact: bearzrobotics@gmail.com
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
 
 You should have received a copy of the Apache 2 License
 along with this program. .
@@ -108,7 +103,6 @@ pub fn delete(mode: u8, paths: Vec<String>){
 
 /// this function is used to delete one file at a time.
 pub fn single_delete(mode: u8, path: String){
-
 	if utils::check_if_path_exist(&path) == true{
 		if utils::check_if_file(&path) == 1 {
 			fs::remove_dir_all(&path).expect("Failded to delete dir");
