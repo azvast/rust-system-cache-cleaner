@@ -32,7 +32,7 @@ pub fn check_if_path_exist(path: &String) -> bool{
 /// 1 - means its a dir
 /// 2 - means its a file
 pub fn check_if_file(path: &String) -> u8{
-    let work_path = fs::metadata(path).expect("Unable to open");;
+    let work_path = fs::metadata(path).expect("Unable to open");
     
     if work_path.is_dir() == true{
         return 1

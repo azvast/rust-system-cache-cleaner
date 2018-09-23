@@ -73,12 +73,24 @@ pub fn element_parser(mode: u8, elements: Vec<String>, delete_file: u8){
                 let path = utils::get_env(tmp_path);
                 cleaner::single_delete(mode, path);
             }
+
+            if elements[i].starts_with("delete_glob=") == true && delete_file == 1{
+                let tmp_path = get_data(elements[i].to_string());
+                let path = utils::get_env(tmp_path);
+                cleaner::single_delete(mode, path);
+            }
         }else{
             if elements[i].starts_with("wfind=") == true{
                 println!("wfind");
             }  
 
-            if elements[i].starts_with("delete=") == true && delete_file == 1{
+            if elements[i].starts_with("wdelete=") == true && delete_file == 1{
+                let tmp_path = get_data(elements[i].to_string());
+                let path = utils::get_env(tmp_path);
+                cleaner::single_delete(mode, path);
+            }
+
+            if elements[i].starts_with("wdelete_glob=") == true && delete_file == 1{
                 let tmp_path = get_data(elements[i].to_string());
                 let path = utils::get_env(tmp_path);
                 cleaner::single_delete(mode, path);

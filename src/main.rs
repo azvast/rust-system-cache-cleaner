@@ -27,12 +27,6 @@ mod users;
 mod crawler_parser;
 
 fn main() {
-	// inits logger
-
-    //error!("Bright red error");
-    //info!("This only appears in the log file");
-    //debug!("This level is currently not enabled for any logger");
-	
 	let log_path = utils::get_log_path(0);
 	CombinedLogger::init(
 		vec![
