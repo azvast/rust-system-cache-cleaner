@@ -1,11 +1,11 @@
 [package]
-name = "cache_cleaner"
+name = "rust-system-cache-cleaner"
 version = "0.0.2"
-authors = ["Dakota James Owen Keeler <Bearzrobotics@gmail.com>"]
+authors = ["Azvast <azvast38@gmail.com>"]
 description = "This is a simple util to help automate clean cache and other unwanted crud on my system"
 license = "Apache-2.0"
 readme = "README.md"
-repository = "https://github.com/BearzRobotics/cache_cleaner"
+repository = "https://github.com/azvast/rust-system-cache-cleaner"
 keywords = ["utility", "cli", "cache", "cleaner"]
 categories = ["command-line-utilities"]
 
